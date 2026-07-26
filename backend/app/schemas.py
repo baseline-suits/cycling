@@ -297,6 +297,39 @@ class ActivityPhotoUpdate(BaseModel):
         return value
 
 
+class ActivityMediaResponse(BaseModel):
+    id: str
+    activity_id: str
+    media_type: Literal["image", "video"]
+    original_filename: str
+    content_type: str
+    size_bytes: int
+    original_size_bytes: int
+    width: int
+    height: int
+    duration_s: float | None = None
+    container_format: str | None = None
+    video_codec: str | None = None
+    audio_codec: str | None = None
+    orientation_degrees: int | None = None
+    captured_at: datetime | None = None
+    latitude: float | None = None
+    longitude: float | None = None
+    caption: str | None = None
+    file_url: str
+    original_file_url: str
+    poster_url: str | None = None
+    processing_status: Literal["pending", "processing", "ready", "failed"]
+    processing_error: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
+class ActivityMediaListResponse(BaseModel):
+    items: list[ActivityMediaResponse]
+    total: int
+
+
 class StatisticsSeriesPoint(BaseModel):
     period_start: date
     activity_count: int

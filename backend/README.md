@@ -17,6 +17,11 @@ Für eine einfache lokale SQLite-Instanz kann `AVENTO_DATABASE_URL=sqlite:///./a
 `AVENTO_AUTO_CREATE_SCHEMA=true` gesetzt werden. In Produktion müssen mindestens eine PostgreSQL-URL,
 ein zufälliger `AVENTO_SECRET_KEY` sowie ein `AVENTO_BOOTSTRAP_INVITE_CODE` konfiguriert werden.
 
+Aktivitätsvideos werden als MP4, MOV oder WebM akzeptiert und mit FFmpeg/FFprobe
+validiert sowie für die Wiedergabe aufbereitet. Größe, Laufzeit und maximale
+Auflösung lassen sich über `AVENTO_MAX_VIDEO_UPLOAD_BYTES`,
+`AVENTO_MAX_VIDEO_DURATION_SECONDS` und `AVENTO_MAX_VIDEO_PIXELS` konfigurieren.
+
 ## Authentifizierung
 
 Der erste Benutzer wird einmalig über `POST /api/v1/auth/bootstrap` mit `bootstrap_code` angelegt und ist

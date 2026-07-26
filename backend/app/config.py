@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     timezone: str = "Europe/Berlin"
     upload_dir: Path = Path("./data/uploads")
     max_upload_bytes: int = 20 * 1024 * 1024
+    max_video_upload_bytes: int = Field(default=500 * 1024 * 1024, ge=1)
+    max_video_duration_seconds: float = Field(default=15 * 60, gt=0)
+    max_video_pixels: int = Field(default=3840 * 2160, ge=1)
+    ffmpeg_path: str = "ffmpeg"
+    ffprobe_path: str = "ffprobe"
     max_avatar_bytes: int = 10 * 1024 * 1024
     avatar_size_px: int = 512
     max_avatar_pixels: int = 20_000_000

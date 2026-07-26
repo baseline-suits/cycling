@@ -687,9 +687,19 @@ def delete_activity(
 ) -> Response:
     activity = _activity_for_user(db, current_user, activity_id)
     file_path = Path(activity.original_file_path)
-    photo_paths = db.scalars(
-        select(ActivityPhoto.storage_path).where(ActivityPhoto.activity_id == activity.id)
+    media_paths = db.execute(
+        select(
+            ActivityPhoto.storage_path,
+            ActivityPhoto.poster_storage_path,
+            ActivityPhoto.original_storage_path,
+        ).where(ActivityPhoto.activity_id == activity.id)
     ).all()
+    photo_paths = [
+        path
+        for row in media_paths
+        for path in row
+        if path
+    ]
     try:
         staged_photos = stage_photo_deletions(photo_paths, get_settings().upload_dir)
     except (OSError, ValueError) as exc:

@@ -51,6 +51,32 @@ def decode_access_token(token: str) -> str:
     return str(payload["sub"])
 
 
+def create_media_playback_token(user_id: str, activity_id: str, media_id: str) -> tuple[str, int]:
+    expires_in = 30 * 60
+    now = datetime.now(timezone.utc)
+    payload: dict[str, Any] = {
+        "sub": user_id,
+        "type": "media-playback",
+        "activity_id": activity_id,
+        "media_id": media_id,
+        "iat": now,
+        "exp": now + timedelta(seconds=expires_in),
+    }
+    return jwt.encode(payload, get_settings().secret_key, algorithm="HS256"), expires_in
+
+
+def decode_media_playback_token(token: str, activity_id: str, media_id: str) -> str:
+    payload = jwt.decode(token, get_settings().secret_key, algorithms=["HS256"])
+    if (
+        payload.get("type") != "media-playback"
+        or payload.get("activity_id") != activity_id
+        or payload.get("media_id") != media_id
+        or not payload.get("sub")
+    ):
+        raise jwt.InvalidTokenError("Not a media playback token")
+    return str(payload["sub"])
+
+
 def generate_opaque_token() -> str:
     return secrets.token_urlsafe(48)
 

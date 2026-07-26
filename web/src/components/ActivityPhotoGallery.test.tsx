@@ -15,6 +15,25 @@ function renderGallery() {
 afterEach(() => vi.restoreAllMocks())
 
 describe('ActivityPhotoGallery – Mehrfach-Upload', () => {
+  it('kommuniziert unterstützte Videoformate und akzeptiert MP4, MOV und WebM', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ items: [], total: 0 }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    }))
+    renderGallery()
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Foto oder Video' }))
+    expect(screen.getByText(/Videos: MP4, MOV, WebM bis 500 MB und 15 Minuten/)).toBeInTheDocument()
+    const input = document.querySelector('input[type="file"]:not([multiple])') as HTMLInputElement
+    expect(input.accept).toContain('video/mp4')
+    expect(input.accept).toContain('video/quicktime')
+    expect(input.accept).toContain('video/webm')
+    fireEvent.change(input, {
+      target: { files: [new File(['video'], 'runde.mp4', { type: 'video/mp4' })] },
+    })
+    expect(await screen.findByText('runde.mp4')).toBeInTheDocument()
+  })
+
   it('nimmt mehrere Dateien per Auswahl und Drag-and-Drop an, ohne manuelle Metadatenfelder', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ items: [], total: 0 }), {
       status: 200,

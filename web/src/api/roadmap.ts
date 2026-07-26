@@ -1,5 +1,9 @@
 import { apiBlobRequest, apiRequest, apiUploadRequest } from './client'
 import type {
+  ActivityMedia,
+  ActivityMediaConfig,
+  ActivityMediaListResponse,
+  ActivityMediaUpload,
   ActivityPhoto,
   ActivityPhotoListResponse,
   ActivityPhotoUpdate,
@@ -48,6 +52,45 @@ export const activityPhotosApi = {
   delete: (activityId: string, photoId: string) =>
     apiRequest<void>(`/activities/${activityId}/photos/${photoId}`, { method: 'DELETE' }),
   file: (photo: ActivityPhoto) => apiBlobRequest(photo.file_url),
+}
+
+function mediaForm(data: ActivityMediaUpload) {
+  const form = new FormData()
+  form.set('file', data.file)
+  if (data.caption?.trim()) form.set('caption', data.caption.trim())
+  if (data.captured_at) form.set('captured_at', data.captured_at)
+  if (data.latitude != null) form.set('latitude', String(data.latitude))
+  if (data.longitude != null) form.set('longitude', String(data.longitude))
+  const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  if (clientTimezone) form.set('client_timezone', clientTimezone)
+  return form
+}
+
+export const activityMediaApi = {
+  config: () => apiRequest<ActivityMediaConfig>('/media/config'),
+  list: (activityId: string) =>
+    apiRequest<ActivityMediaListResponse>(`/activities/${activityId}/media`),
+  uploadVideo: (activityId: string, data: ActivityMediaUpload, onProgress?: (percent: number) => void) =>
+    apiUploadRequest<ActivityMedia>(`/activities/${activityId}/media`, mediaForm(data), onProgress),
+  update: (activityId: string, mediaId: string, data: ActivityPhotoUpdate) =>
+    apiRequest<ActivityMedia>(`/activities/${activityId}/media/${mediaId}`, {
+      method: 'PATCH',
+      body: data,
+    }),
+  delete: (activityId: string, mediaId: string) =>
+    apiRequest<void>(`/activities/${activityId}/media/${mediaId}`, { method: 'DELETE' }),
+  retry: (activityId: string, mediaId: string) =>
+    apiRequest<ActivityMedia>(`/activities/${activityId}/media/${mediaId}/retry`, { method: 'POST' }),
+  file: (media: ActivityMedia) => apiBlobRequest(media.file_url),
+  playbackUrl: (media: ActivityMedia) =>
+    apiRequest<{ url: string; expires_in: number }>(
+      `/activities/${media.activity_id}/media/${media.id}/playback-token`,
+      { method: 'POST' },
+    ).then((response) => response.url),
+  poster: (media: ActivityMedia) => {
+    if (!media.poster_url) throw new Error('Für dieses Video ist noch kein Poster verfügbar.')
+    return apiBlobRequest(media.poster_url)
+  },
 }
 
 export const insightsApi = {

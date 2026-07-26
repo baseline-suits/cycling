@@ -8,6 +8,9 @@ import CloudUploadRoundedIcon from '@mui/icons-material/CloudUploadRounded'
 import ImageNotSupportedRoundedIcon from '@mui/icons-material/ImageNotSupportedRounded'
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded'
 import PhotoLibraryRoundedIcon from '@mui/icons-material/PhotoLibraryRounded'
+import PlayCircleOutlineRoundedIcon from '@mui/icons-material/PlayCircleOutlineRounded'
+import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded'
+import VideoFileRoundedIcon from '@mui/icons-material/VideoFileRounded'
 import {
   Alert,
   Box,
@@ -33,16 +36,30 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   activityPhotosApi,
-  type ActivityPhoto,
+  activityMediaApi,
+  type ActivityMedia,
+  type ActivityMediaConfig,
+  type ActivityMediaUpload,
   type ActivityPhotoUpdate,
-  type ActivityPhotoUpload,
   type TrackPoint,
 } from '../api'
 import { errorMessage, formatDateTime } from '../utils/format'
 import { EmptyState, ErrorState } from './States'
 import { TrackMap, type TrackMapMarker } from './TrackMap'
 
-const maximumPhotoBytes = 15 * 1024 * 1024
+const defaultMediaConfig: ActivityMediaConfig = {
+  image_formats: ['JPEG', 'PNG', 'WebP'],
+  video_formats: ['MP4', 'MOV', 'WebM'],
+  max_image_bytes: 15 * 1024 * 1024,
+  max_video_bytes: 500 * 1024 * 1024,
+  max_video_duration_seconds: 15 * 60,
+}
+const videoTypes = new Set(['video/mp4', 'video/quicktime', 'video/webm'])
+const videoExtensions = /\.(mp4|mov|webm)$/i
+
+function isVideoFile(file: File) {
+  return videoTypes.has(file.type) || videoExtensions.test(file.name)
+}
 
 function localDateTimeValue(value?: string | null) {
   if (!value) return ''
@@ -62,18 +79,26 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
   const client = useQueryClient()
   const [uploadOpen, setUploadOpen] = useState(false)
   const [bulkUploadOpen, setBulkUploadOpen] = useState(false)
-  const [editPhoto, setEditPhoto] = useState<ActivityPhoto | null>(null)
-  const [deletePhoto, setDeletePhoto] = useState<ActivityPhoto | null>(null)
-  const [detailPhoto, setDetailPhoto] = useState<ActivityPhoto | null>(null)
+  const [editPhoto, setEditPhoto] = useState<ActivityMedia | null>(null)
+  const [deletePhoto, setDeletePhoto] = useState<ActivityMedia | null>(null)
+  const [detailPhoto, setDetailPhoto] = useState<ActivityMedia | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0)
   const photos = useQuery({
-    queryKey: ['activity', activityId, 'photos'],
-    queryFn: () => activityPhotosApi.list(activityId),
+    queryKey: ['activity', activityId, 'media'],
+    queryFn: () => activityMediaApi.list(activityId),
     enabled: Boolean(activityId),
+    refetchInterval: (query) => query.state.data?.items.some((item) => ['pending', 'processing'].includes(item.processing_status)) ? 2_000 : false,
   })
-  const refresh = () => client.invalidateQueries({ queryKey: ['activity', activityId, 'photos'] })
+  const mediaConfig = useQuery({
+    queryKey: ['activity-media-config'],
+    queryFn: activityMediaApi.config,
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+  const refresh = () => client.invalidateQueries({ queryKey: ['activity', activityId, 'media'] })
   const upload = useMutation({
-    mutationFn: (data: ActivityPhotoUpload) => activityPhotosApi.upload(activityId, data, setUploadProgress),
+    mutationFn: (data: ActivityMediaUpload) => isVideoFile(data.file)
+      ? activityMediaApi.uploadVideo(activityId, data, setUploadProgress)
+      : activityPhotosApi.upload(activityId, data, setUploadProgress),
     onSuccess: async () => {
       await refresh()
       setUploadOpen(false)
@@ -82,19 +107,23 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
   })
   const update = useMutation({
     mutationFn: ({ photoId, data }: { photoId: string; data: ActivityPhotoUpdate }) =>
-      activityPhotosApi.update(activityId, photoId, data),
+      activityMediaApi.update(activityId, photoId, data),
     onSuccess: async () => {
       await refresh()
       setEditPhoto(null)
     },
   })
   const remove = useMutation({
-    mutationFn: (photoId: string) => activityPhotosApi.delete(activityId, photoId),
+    mutationFn: (photoId: string) => activityMediaApi.delete(activityId, photoId),
     onSuccess: async () => {
       await refresh()
       setDeletePhoto(null)
       setDetailPhoto(null)
     },
+  })
+  const retry = useMutation({
+    mutationFn: (mediaId: string) => activityMediaApi.retry(activityId, mediaId),
+    onSuccess: refresh,
   })
   const locatedPhotos = useMemo(
     () => photos.data?.items.filter((photo) => photo.latitude != null && photo.longitude != null) ?? [],
@@ -104,17 +133,20 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
     id: photo.id,
     latitude: photo.latitude!,
     longitude: photo.longitude!,
-    label: photo.caption || 'Aktivitätsfoto',
+    label: photo.caption || (photo.media_type === 'video' ? 'Aktivitätsvideo' : 'Aktivitätsfoto'),
     color: '#E9A23B',
   })), [locatedPhotos])
+  const displayedDetailPhoto = detailPhoto
+    ? photos.data?.items.find((item) => item.id === detailPhoto.id) ?? detailPhoto
+    : null
 
   return (
-    <Box component="section" aria-labelledby="activity-photos-title" sx={{ mt: 3 }}>
+    <Box component="section" aria-labelledby="activity-media-title" sx={{ mt: 3 }}>
       <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'stretch', sm: 'center' }} gap={1.5} sx={{ mb: 1.75 }}>
         <Box>
           <Stack direction="row" alignItems="center" gap={1}>
             <PhotoLibraryRoundedIcon color="primary" />
-            <Typography id="activity-photos-title" variant="h3">Fotogalerie</Typography>
+            <Typography id="activity-media-title" variant="h3">Mediengalerie</Typography>
           </Stack>
           <Typography variant="body2" color="text.secondary" sx={{ mt: .35 }}>
             {photos.data ? `${photos.data.total} ${photos.data.total === 1 ? 'Erinnerung' : 'Erinnerungen'} zu dieser Fahrt` : 'Momente entlang deiner Strecke'}
@@ -122,7 +154,7 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
         </Box>
         <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
           <Button variant="outlined" startIcon={<AddAPhotoRoundedIcon />} onClick={() => { upload.reset(); setUploadOpen(true) }}>
-            Foto hinzufügen
+            Foto oder Video
           </Button>
           <Button variant="contained" startIcon={<CloudUploadRoundedIcon />} onClick={() => setBulkUploadOpen(true)}>
             Mehrere Fotos
@@ -139,16 +171,16 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
       {photos.data && photos.data.items.length === 0 && (
         <Card>
           <EmptyState
-            title="Noch keine Fotos"
-            description="Füge Landschaften, Pausen oder besondere Streckenmomente mit optionalem Aufnahmeort hinzu."
-            action={<Button startIcon={<AddAPhotoRoundedIcon />} onClick={() => setUploadOpen(true)}>Erstes Foto hinzufügen</Button>}
+            title="Noch keine Medien"
+            description="Füge Fotos oder Videos von Landschaften, Pausen und besonderen Streckenmomenten hinzu."
+            action={<Button startIcon={<AddAPhotoRoundedIcon />} onClick={() => setUploadOpen(true)}>Erstes Medium hinzufügen</Button>}
           />
         </Card>
       )}
       {photos.data && photos.data.items.length > 0 && (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', xl: 'repeat(3, 1fr)' }, gap: 1.5 }}>
           {photos.data.items.map((photo) => (
-            <PhotoCard
+            <MediaCard
               key={photo.id}
               photo={photo}
               onOpen={() => setDetailPhoto(photo)}
@@ -165,7 +197,7 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
             <Stack direction="row" alignItems="center" gap={1}>
               <LocationOnRoundedIcon color="primary" />
               <Box>
-                <Typography variant="h4">Fotos auf der Strecke</Typography>
+                <Typography variant="h4">Medien auf der Strecke</Typography>
                 <Typography variant="body2" color="text.secondary">{markers.length} verortete {markers.length === 1 ? 'Aufnahme' : 'Aufnahmen'}</Typography>
               </Box>
             </Stack>
@@ -180,8 +212,9 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
         busy={upload.isPending}
         progress={uploadProgress}
         error={upload.error}
+        config={mediaConfig.data?.video_formats ? mediaConfig.data : undefined}
         onClose={() => setUploadOpen(false)}
-        onSubmit={(data) => upload.mutate(data as ActivityPhotoUpload)}
+        onSubmit={(data) => upload.mutate(data as ActivityMediaUpload)}
       />
       <BulkPhotoUploadDialog
         activityId={activityId}
@@ -202,40 +235,48 @@ export function ActivityPhotoGallery({ activityId, trackPoints, mapVariant = 'cl
       />
 
       <Dialog open={Boolean(deletePhoto)} onClose={remove.isPending ? undefined : () => setDeletePhoto(null)} maxWidth="xs" fullWidth>
-        <DialogTitle>Foto löschen?</DialogTitle>
+        <DialogTitle>Medium löschen?</DialogTitle>
         <DialogContent>
-          <Typography>Das Foto{deletePhoto?.caption ? ` „${deletePhoto.caption}“` : ''} wird dauerhaft entfernt.</Typography>
+          <Typography>Das Medium{deletePhoto?.caption ? ` „${deletePhoto.caption}“` : ''} wird einschließlich aller abgeleiteten Dateien dauerhaft entfernt.</Typography>
           {remove.isError && <Alert severity="error" sx={{ mt: 2 }}>{errorMessage(remove.error)}</Alert>}
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3 }}>
           <Button color="inherit" onClick={() => setDeletePhoto(null)}>Abbrechen</Button>
           <Button color="error" variant="contained" disabled={remove.isPending} onClick={() => deletePhoto && remove.mutate(deletePhoto.id)}>
-            {remove.isPending ? 'Wird gelöscht …' : 'Foto löschen'}
+            {remove.isPending ? 'Wird gelöscht …' : 'Medium löschen'}
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={Boolean(detailPhoto)} onClose={() => setDetailPhoto(null)} maxWidth="md" fullWidth>
-        <DialogTitle sx={{ pr: 7 }}>{detailPhoto?.caption || 'Aktivitätsfoto'}</DialogTitle>
+        <DialogTitle sx={{ pr: 7 }}>{displayedDetailPhoto?.caption || (displayedDetailPhoto?.media_type === 'video' ? 'Aktivitätsvideo' : 'Aktivitätsfoto')}</DialogTitle>
         <IconButton aria-label="Ansicht schließen" onClick={() => setDetailPhoto(null)} sx={{ position: 'absolute', right: 12, top: 10 }}><CloseRoundedIcon /></IconButton>
         <DialogContent sx={{ pt: 0 }}>
-          {detailPhoto && <AuthenticatedPhoto photo={detailPhoto} height="min(68vh, 720px)" contain />}
-          {detailPhoto && <PhotoMeta photo={detailPhoto} sx={{ mt: 1.5 }} />}
+          {displayedDetailPhoto && <AuthenticatedMedia media={displayedDetailPhoto} height="min(68vh, 720px)" contain />}
+          {displayedDetailPhoto && <PhotoMeta photo={displayedDetailPhoto} sx={{ mt: 1.5 }} />}
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button startIcon={<EditRoundedIcon />} onClick={() => { setEditPhoto(detailPhoto); setDetailPhoto(null) }}>Metadaten bearbeiten</Button>
-          <Button color="error" startIcon={<DeleteOutlineRoundedIcon />} onClick={() => { setDeletePhoto(detailPhoto); setDetailPhoto(null) }}>Löschen</Button>
+          {displayedDetailPhoto?.media_type === 'video' && displayedDetailPhoto.processing_status === 'failed' && (
+            <Button startIcon={<ReplayRoundedIcon />} disabled={retry.isPending} onClick={() => retry.mutate(displayedDetailPhoto.id)}>
+              Erneut verarbeiten
+            </Button>
+          )}
+          <Button startIcon={<EditRoundedIcon />} onClick={() => { setEditPhoto(displayedDetailPhoto); setDetailPhoto(null) }}>Metadaten bearbeiten</Button>
+          <Button color="error" startIcon={<DeleteOutlineRoundedIcon />} onClick={() => { setDeletePhoto(displayedDetailPhoto); setDetailPhoto(null) }}>Löschen</Button>
         </DialogActions>
       </Dialog>
     </Box>
   )
 }
 
-function PhotoCard({ photo, onOpen, onEdit, onDelete }: { photo: ActivityPhoto; onOpen: () => void; onEdit: () => void; onDelete: () => void }) {
+function MediaCard({ photo, onOpen, onEdit, onDelete }: { photo: ActivityMedia; onOpen: () => void; onEdit: () => void; onDelete: () => void }) {
   return (
     <Card sx={{ overflow: 'hidden' }}>
-      <Box component="button" type="button" onClick={onOpen} sx={{ display: 'block', width: '100%', p: 0, border: 0, cursor: 'zoom-in', bgcolor: 'action.hover' }}>
-        <AuthenticatedPhoto photo={photo} height={230} />
+      <Box component="button" type="button" onClick={onOpen} sx={{ position: 'relative', display: 'block', width: '100%', p: 0, border: 0, cursor: 'zoom-in', bgcolor: 'action.hover' }}>
+        <AuthenticatedMedia media={photo} height={230} preview />
+        {photo.media_type === 'video' && photo.processing_status === 'ready' && (
+          <PlayCircleOutlineRoundedIcon sx={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', color: 'common.white', fontSize: 58, filter: 'drop-shadow(0 2px 5px rgba(0,0,0,.55))' }} />
+        )}
       </Box>
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
         <Stack direction="row" justifyContent="space-between" gap={1} alignItems="flex-start">
@@ -244,8 +285,8 @@ function PhotoCard({ photo, onOpen, onEdit, onDelete }: { photo: ActivityPhoto; 
             <PhotoMeta photo={photo} />
           </Box>
           <Stack direction="row" sx={{ mt: -.75, mr: -.75 }}>
-            <Tooltip title="Metadaten bearbeiten"><IconButton aria-label="Fotometadaten bearbeiten" size="small" onClick={onEdit}><EditRoundedIcon fontSize="small" /></IconButton></Tooltip>
-            <Tooltip title="Foto löschen"><IconButton aria-label="Foto löschen" size="small" color="error" onClick={onDelete}><DeleteOutlineRoundedIcon fontSize="small" /></IconButton></Tooltip>
+            <Tooltip title="Metadaten bearbeiten"><IconButton aria-label="Medienmetadaten bearbeiten" size="small" onClick={onEdit}><EditRoundedIcon fontSize="small" /></IconButton></Tooltip>
+            <Tooltip title="Medium löschen"><IconButton aria-label="Medium löschen" size="small" color="error" onClick={onDelete}><DeleteOutlineRoundedIcon fontSize="small" /></IconButton></Tooltip>
           </Stack>
         </Stack>
       </CardContent>
@@ -253,36 +294,71 @@ function PhotoCard({ photo, onOpen, onEdit, onDelete }: { photo: ActivityPhoto; 
   )
 }
 
-function AuthenticatedPhoto({ photo, height, contain = false }: { photo: ActivityPhoto; height: number | string; contain?: boolean }) {
-  const image = useQuery({
-    queryKey: ['activity-photo-file', photo.id, photo.updated_at],
-    queryFn: () => activityPhotosApi.file(photo),
+function AuthenticatedMedia({ media, height, contain = false, preview = false }: { media: ActivityMedia; height: number | string; contain?: boolean; preview?: boolean }) {
+  const file = useQuery<Blob | string>({
+    queryKey: ['activity-media-file', media.id, media.updated_at, preview],
+    queryFn: () => media.media_type === 'video'
+      ? (preview ? activityMediaApi.poster(media) : activityMediaApi.playbackUrl(media))
+      : activityMediaApi.file(media),
+    enabled: media.media_type === 'image' || media.processing_status === 'ready',
+    staleTime: 55 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  })
+  const poster = useQuery({
+    queryKey: ['activity-media-poster', media.id, media.updated_at],
+    queryFn: () => activityMediaApi.poster(media),
+    enabled: media.media_type === 'video' && media.processing_status === 'ready' && !preview,
     staleTime: 55 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
   })
   const [source, setSource] = useState<string | null>(null)
+  const [posterSource, setPosterSource] = useState<string | null>(null)
   useEffect(() => {
-    if (!image.data) return
-    const objectUrl = URL.createObjectURL(image.data)
-    setSource(objectUrl)
+    if (!file.data) return
+    if (typeof file.data === 'string') {
+      setSource(file.data)
+      return () => setSource(null)
+    }
+    const objectUrl = URL.createObjectURL(file.data)
     return () => {
       URL.revokeObjectURL(objectUrl)
       setSource(null)
     }
-  }, [image.data])
+  }, [file.data])
+  useEffect(() => {
+    if (!poster.data) return
+    const objectUrl = URL.createObjectURL(poster.data)
+    setPosterSource(objectUrl)
+    return () => {
+      URL.revokeObjectURL(objectUrl)
+      setPosterSource(null)
+    }
+  }, [poster.data])
 
-  if (image.isError) {
-    return <Stack alignItems="center" justifyContent="center" spacing={1} sx={{ height, color: 'text.secondary' }}><ImageNotSupportedRoundedIcon /><Typography variant="caption">Bild nicht verfügbar</Typography></Stack>
+  if (media.media_type === 'video' && media.processing_status !== 'ready') {
+    const failed = media.processing_status === 'failed'
+    return <Stack alignItems="center" justifyContent="center" spacing={1} sx={{ height, px: 2, color: failed ? 'error.main' : 'text.secondary' }}>
+      {failed ? <ImageNotSupportedRoundedIcon /> : <VideoFileRoundedIcon />}
+      <Typography variant="body2" fontWeight={700}>{failed ? 'Verarbeitung fehlgeschlagen' : 'Video wird verarbeitet …'}</Typography>
+      {failed && media.processing_error && <Typography variant="caption" textAlign="center">{media.processing_error}</Typography>}
+    </Stack>
+  }
+  if (file.isError) {
+    return <Stack alignItems="center" justifyContent="center" spacing={1} sx={{ height, color: 'text.secondary' }}><ImageNotSupportedRoundedIcon /><Typography variant="caption">Medium nicht verfügbar</Typography></Stack>
   }
   if (!source) return <Skeleton variant="rectangular" height={height} />
-  return <Box component="img" src={source} alt={photo.caption || photo.original_filename} sx={{ display: 'block', width: '100%', height, objectFit: contain ? 'contain' : 'cover', bgcolor: 'action.hover' }} />
+  if (media.media_type === 'video' && !preview) {
+    return <Box component="video" src={source} poster={posterSource ?? undefined} controls preload="metadata" sx={{ display: 'block', width: '100%', height, objectFit: 'contain', bgcolor: 'common.black' }} />
+  }
+  return <Box component="img" src={source} alt={media.caption || media.original_filename} sx={{ display: 'block', width: '100%', height, objectFit: contain ? 'contain' : 'cover', bgcolor: 'action.hover' }} />
 }
 
-function PhotoMeta({ photo, sx }: { photo: ActivityPhoto; sx?: object }) {
+function PhotoMeta({ photo, sx }: { photo: ActivityMedia; sx?: object }) {
   return (
     <Stack direction="row" gap={1.25} flexWrap="wrap" sx={{ mt: .5, ...sx }}>
       {photo.captured_at && <Stack direction="row" alignItems="center" gap={.4}><CalendarMonthRoundedIcon sx={{ fontSize: 15, color: 'text.secondary' }} /><Typography variant="caption" color="text.secondary">{formatDateTime(photo.captured_at)}</Typography></Stack>}
       {photo.latitude != null && photo.longitude != null && <Stack direction="row" alignItems="center" gap={.4}><LocationOnRoundedIcon sx={{ fontSize: 15, color: 'text.secondary' }} /><Typography variant="caption" color="text.secondary">{photo.latitude.toFixed(5)}, {photo.longitude.toFixed(5)}</Typography></Stack>}
+      {photo.media_type === 'video' && photo.duration_s != null && <Typography variant="caption" color="text.secondary">{Math.floor(photo.duration_s / 60)}:{String(Math.round(photo.duration_s % 60)).padStart(2, '0')} · {photo.width}×{photo.height}</Typography>}
     </Stack>
   )
 }
@@ -290,21 +366,23 @@ function PhotoMeta({ photo, sx }: { photo: ActivityPhoto; sx?: object }) {
 interface PhotoMetadataDialogProps {
   mode: 'upload' | 'edit'
   open: boolean
-  photo?: ActivityPhoto | null
+  photo?: ActivityMedia | null
   busy: boolean
   progress?: number
   error: unknown
+  config?: ActivityMediaConfig
   onClose: () => void
-  onSubmit: (data: ActivityPhotoUpload | ActivityPhotoUpdate) => void
+  onSubmit: (data: ActivityMediaUpload | ActivityPhotoUpdate) => void
 }
 
-function PhotoMetadataDialog({ mode, open, photo, busy, progress = 0, error, onClose, onSubmit }: PhotoMetadataDialogProps) {
+function PhotoMetadataDialog({ mode, open, photo, busy, progress = 0, error, config = defaultMediaConfig, onClose, onSubmit }: PhotoMetadataDialogProps) {
   const [file, setFile] = useState<File | null>(null)
   const [caption, setCaption] = useState('')
   const [capturedAt, setCapturedAt] = useState('')
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const [validation, setValidation] = useState<string | null>(null)
+  const [videoDuration, setVideoDuration] = useState<number | null>(null)
 
   useEffect(() => {
     if (!open) return
@@ -314,12 +392,33 @@ function PhotoMetadataDialog({ mode, open, photo, busy, progress = 0, error, onC
     setLatitude(photo?.latitude == null ? '' : String(photo.latitude))
     setLongitude(photo?.longitude == null ? '' : String(photo.longitude))
     setValidation(null)
+    setVideoDuration(null)
   }, [open, photo])
+
+  useEffect(() => {
+    if (!file || !isVideoFile(file)) {
+      setVideoDuration(null)
+      return
+    }
+    const source = URL.createObjectURL(file)
+    const video = document.createElement('video')
+    video.preload = 'metadata'
+    video.onloadedmetadata = () => {
+      if (Number.isFinite(video.duration)) setVideoDuration(video.duration)
+      URL.revokeObjectURL(source)
+    }
+    video.onerror = () => URL.revokeObjectURL(source)
+    video.src = source
+    return () => URL.revokeObjectURL(source)
+  }, [file])
 
   function submit() {
     setValidation(null)
-    if (mode === 'upload' && !file) return setValidation('Bitte wähle ein Foto aus.')
-    if (file && file.size > maximumPhotoBytes) return setValidation('Das Foto darf höchstens 15 MB groß sein.')
+    if (mode === 'upload' && !file) return setValidation('Bitte wähle ein Foto oder Video aus.')
+    if (file?.size === 0) return setValidation('Die Datei ist leer.')
+    if (file && isVideoFile(file) && file.size > config.max_video_bytes) return setValidation(`Das Video darf höchstens ${Math.floor(config.max_video_bytes / 1024 / 1024)} MB groß sein.`)
+    if (videoDuration != null && videoDuration > config.max_video_duration_seconds) return setValidation(`Das Video darf höchstens ${config.max_video_duration_seconds / 60} Minuten lang sein.`)
+    if (file && !isVideoFile(file) && file.size > config.max_image_bytes) return setValidation(`Das Foto darf höchstens ${Math.floor(config.max_image_bytes / 1024 / 1024)} MB groß sein.`)
     if (caption.length > 1000) return setValidation('Die Caption darf höchstens 1.000 Zeichen lang sein.')
     if (Boolean(latitude) !== Boolean(longitude)) return setValidation('Bitte gib Breitengrad und Längengrad gemeinsam an.')
     const latitudeNumber = latitude ? Number(latitude) : null
@@ -337,15 +436,17 @@ function PhotoMetadataDialog({ mode, open, photo, busy, progress = 0, error, onC
 
   return (
     <Dialog open={open} onClose={busy ? undefined : onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{mode === 'upload' ? 'Foto hinzufügen' : 'Fotometadaten bearbeiten'}</DialogTitle>
+      <DialogTitle>{mode === 'upload' ? 'Foto oder Video hinzufügen' : 'Medienmetadaten bearbeiten'}</DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ pt: 1 }}>
           {mode === 'upload' && (
             <Button component="label" variant={file ? 'outlined' : 'contained'} startIcon={<AddAPhotoRoundedIcon />}>
-              {file ? file.name : 'JPEG, PNG oder WebP auswählen'}
-              <Box component="input" hidden type="file" accept="image/jpeg,image/png,image/webp" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFile(event.target.files?.[0] ?? null)} />
+              {file ? file.name : 'Foto oder Video auswählen'}
+              <Box component="input" hidden type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm,.mov" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFile(event.target.files?.[0] ?? null)} />
             </Button>
           )}
+          {mode === 'upload' && <Typography variant="caption" color="text.secondary">Bilder: {config.image_formats.join(', ')} bis {Math.floor(config.max_image_bytes / 1024 / 1024)} MB. Videos: {config.video_formats.join(', ')} bis {Math.floor(config.max_video_bytes / 1024 / 1024)} MB und {config.max_video_duration_seconds / 60} Minuten. Der Server prüft den tatsächlichen Dateiinhalt.</Typography>}
+          {mode === 'upload' && videoDuration != null && <Typography variant="caption" color="text.secondary">Erkannte Videodauer: {Math.ceil(videoDuration)} Sekunden</Typography>}
           <TextField label="Caption" value={caption} onChange={(event) => setCaption(event.target.value)} multiline minRows={2} inputProps={{ maxLength: 1000 }} helperText={`${caption.length}/1.000 Zeichen`} />
           <TextField label="Aufnahmezeit (optional)" type="datetime-local" value={capturedAt} onChange={(event) => setCapturedAt(event.target.value)} slotProps={{ inputLabel: { shrink: true } }} helperText="Wird mit deiner lokalen Zeitzone gespeichert." />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
@@ -357,7 +458,7 @@ function PhotoMetadataDialog({ mode, open, photo, busy, progress = 0, error, onC
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 3 }}>
         <Button color="inherit" onClick={onClose}>Abbrechen</Button>
-        <Button variant="contained" disabled={busy} onClick={submit}>{busy ? `${mode === 'upload' ? 'Wird hochgeladen' : 'Wird gespeichert'} … ${progress}%` : mode === 'upload' ? 'Foto hochladen' : 'Speichern'}</Button>
+        <Button variant="contained" disabled={busy} onClick={submit}>{busy ? `${mode === 'upload' ? 'Wird hochgeladen' : 'Wird gespeichert'} … ${progress}%` : mode === 'upload' ? 'Medium hochladen' : 'Speichern'}</Button>
       </DialogActions>
     </Dialog>
   )
@@ -381,7 +482,7 @@ function bulkPhotoValidation(file: File) {
   if ((!file.type || !bulkPhotoTypes.has(file.type)) && !bulkPhotoExtensions.test(file.name)) {
     return 'Unterstützt werden JPEG-, PNG- und WebP-Bilder.'
   }
-  if (file.size > maximumPhotoBytes) return 'Das Foto darf höchstens 15 MB groß sein.'
+  if (file.size > defaultMediaConfig.max_image_bytes) return 'Das Foto darf höchstens 15 MB groß sein.'
   if (file.size === 0) return 'Die Datei ist leer.'
   return null
 }

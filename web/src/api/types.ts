@@ -437,6 +437,49 @@ export interface ActivityPhotoUpdate {
   longitude?: number | null
 }
 
+export interface ActivityMedia {
+  id: string
+  activity_id: string
+  media_type: 'image' | 'video'
+  caption: string | null
+  captured_at: string | null
+  latitude: number | null
+  longitude: number | null
+  original_filename: string
+  content_type: string
+  size_bytes: number
+  original_size_bytes: number
+  width: number
+  height: number
+  duration_s: number | null
+  container_format: string | null
+  video_codec: string | null
+  audio_codec: string | null
+  orientation_degrees: number | null
+  file_url: string
+  original_file_url: string
+  poster_url: string | null
+  processing_status: 'pending' | 'processing' | 'ready' | 'failed'
+  processing_error: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface ActivityMediaListResponse {
+  items: ActivityMedia[]
+  total: number
+}
+
+export interface ActivityMediaUpload extends ActivityPhotoUpload {}
+
+export interface ActivityMediaConfig {
+  image_formats: string[]
+  video_formats: string[]
+  max_image_bytes: number
+  max_video_bytes: number
+  max_video_duration_seconds: number
+}
+
 export interface DistanceRecord {
   target_distance_m: number
   duration_s: number
