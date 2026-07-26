@@ -66,6 +66,22 @@ function mediaForm(data: ActivityMediaUpload) {
   return form
 }
 
+const mediaPreviewQueue: Array<() => void> = []
+let activeMediaPreviews = 0
+
+async function withMediaPreviewSlot<T>(operation: () => Promise<T>): Promise<T> {
+  if (activeMediaPreviews >= 4) {
+    await new Promise<void>((resolve) => mediaPreviewQueue.push(resolve))
+  }
+  activeMediaPreviews += 1
+  try {
+    return await operation()
+  } finally {
+    activeMediaPreviews -= 1
+    mediaPreviewQueue.shift()?.()
+  }
+}
+
 export const activityMediaApi = {
   config: () => apiRequest<ActivityMediaConfig>('/media/config'),
   list: (activityId: string) =>
@@ -88,8 +104,8 @@ export const activityMediaApi = {
       { method: 'POST' },
     ).then((response) => response.url),
   poster: (media: ActivityMedia) => {
-    if (!media.poster_url) throw new Error('Für dieses Video ist noch kein Poster verfügbar.')
-    return apiBlobRequest(media.poster_url)
+    if (!media.poster_url) throw new Error('Für dieses Medium ist noch keine Vorschau verfügbar.')
+    return withMediaPreviewSlot(() => apiBlobRequest(media.poster_url!))
   },
 }
 

@@ -297,9 +297,11 @@ function MediaCard({ photo, onOpen, onEdit, onDelete }: { photo: ActivityMedia; 
 function AuthenticatedMedia({ media, height, contain = false, preview = false }: { media: ActivityMedia; height: number | string; contain?: boolean; preview?: boolean }) {
   const file = useQuery<Blob | string>({
     queryKey: ['activity-media-file', media.id, media.updated_at, preview],
-    queryFn: () => media.media_type === 'video'
-      ? (preview ? activityMediaApi.poster(media) : activityMediaApi.playbackUrl(media))
-      : activityMediaApi.file(media),
+    queryFn: () => preview
+      ? activityMediaApi.poster(media)
+      : media.media_type === 'video'
+        ? activityMediaApi.playbackUrl(media)
+        : activityMediaApi.file(media),
     enabled: media.media_type === 'image' || media.processing_status === 'ready',
     staleTime: 55 * 60 * 1000,
     gcTime: 60 * 60 * 1000,
@@ -320,6 +322,7 @@ function AuthenticatedMedia({ media, height, contain = false, preview = false }:
       return () => setSource(null)
     }
     const objectUrl = URL.createObjectURL(file.data)
+    setSource(objectUrl)
     return () => {
       URL.revokeObjectURL(objectUrl)
       setSource(null)

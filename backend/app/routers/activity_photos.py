@@ -28,6 +28,7 @@ from ..photo_storage import (
     stage_photo_deletions,
     validate_and_store_original,
     create_optimized_photo,
+    create_photo_thumbnail,
 )
 from ..schemas import (
     ActivityMediaListResponse,
@@ -121,7 +122,7 @@ def _media_response(media: ActivityPhoto) -> ActivityMediaResponse:
         caption=media.caption,
         file_url=f"{base}/file" if media.media_type == "video" else f"/api/v1/activities/{media.activity_id}/photos/{media.id}/file",
         original_file_url=f"{base}/original" if media.media_type == "video" else f"/api/v1/activities/{media.activity_id}/photos/{media.id}/original",
-        poster_url=f"{base}/poster" if media.media_type == "video" and media.poster_storage_path else None,
+        poster_url=f"{base}/poster" if media.media_type == "image" or media.poster_storage_path else None,
         processing_status=media.processing_status,
         processing_error=media.processing_error,
         created_at=media.created_at,
@@ -256,6 +257,11 @@ def _optimize_photo_in_background(photo_id: str) -> None:
         photo.size_bytes = optimized.size_bytes
         photo.width = optimized.width
         photo.height = optimized.height
+        try:
+            thumbnail = create_photo_thumbnail(optimized.path, photo.id, settings.upload_dir)
+            photo.poster_storage_path = str(thumbnail.path)
+        except PhotoValidationError:
+            logger.exception("Vorschau des Aktivitätsfotos %s konnte nicht erstellt werden", photo_id)
         photo.processing_status = "ready"
         db.commit()
     except Exception:
@@ -381,7 +387,12 @@ def delete_activity_photo(
     settings = get_settings()
     try:
         staged = stage_photo_deletions(
-            [path for path in (photo.storage_path, photo.original_storage_path) if path], settings.upload_dir
+            [
+                path
+                for path in (photo.storage_path, photo.poster_storage_path, photo.original_storage_path)
+                if path
+            ],
+            settings.upload_dir,
         )
     except (OSError, ValueError) as exc:
         raise HTTPException(status_code=409, detail="Die Fotodatei konnte nicht sicher entfernt werden.") from exc
@@ -767,16 +778,31 @@ def get_activity_media_poster(
 ) -> FileResponse:
     _activity_for_user(db, current_user, activity_id)
     media = _media_for_user(db, current_user, activity_id, media_id)
-    if media.media_type != "video" or not media.poster_storage_path:
+    if media.media_type == "video" and not media.poster_storage_path:
         raise HTTPException(status_code=404, detail="Das Video-Poster ist nicht verfügbar.")
+    if media.media_type == "image" and not media.poster_storage_path:
+        settings = get_settings()
+        try:
+            source_path = safe_photo_path(
+                media.storage_path or media.original_storage_path,
+                settings.upload_dir,
+                must_exist=True,
+            )
+            thumbnail = create_photo_thumbnail(source_path, media.id, settings.upload_dir)
+            media.poster_storage_path = str(thumbnail.path)
+            db.commit()
+        except (PhotoValidationError, ValueError, FileNotFoundError, OSError) as exc:
+            db.rollback()
+            raise HTTPException(status_code=404, detail="Die Fotovorschau ist nicht verfügbar.") from exc
     try:
         path = safe_photo_path(media.poster_storage_path, get_settings().upload_dir, must_exist=True)
     except (ValueError, FileNotFoundError) as exc:
-        raise HTTPException(status_code=404, detail="Das Video-Poster ist nicht verfügbar.") from exc
+        detail = "Das Video-Poster ist nicht verfügbar." if media.media_type == "video" else "Die Fotovorschau ist nicht verfügbar."
+        raise HTTPException(status_code=404, detail=detail) from exc
     return FileResponse(
         path,
         media_type="image/webp",
-        filename=f"{media.id}-poster.webp",
+        filename=f"{media.id}-{'poster' if media.media_type == 'video' else 'preview'}.webp",
         content_disposition_type="inline",
         headers={"Cache-Control": "private, max-age=3600", "X-Content-Type-Options": "nosniff"},
     )

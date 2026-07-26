@@ -61,7 +61,7 @@ def _video_bytes(
 
 def _image_bytes() -> bytes:
     output = BytesIO()
-    Image.new("RGB", (160, 90), "#E9A23B").save(output, format="JPEG")
+    Image.new("RGB", (1200, 675), "#E9A23B").save(output, format="JPEG")
     return output.getvalue()
 
 
@@ -130,6 +130,19 @@ def test_video_upload_processing_playback_poster_isolation_and_cleanup(
     mixed = client.get(f"/api/v1/activities/{activity_id}/media", headers=auth).json()
     assert mixed["total"] == 2
     assert {item["media_type"] for item in mixed["items"]} == {"image", "video"}
+    image_media = next(item for item in mixed["items"] if item["media_type"] == "image")
+    assert image_media["poster_url"]
+    # Existing photos from before the migration receive their small preview
+    # lazily on first access.
+    with SessionLocal() as db:
+        stored_image = db.get(ActivityPhoto, image_media["id"])
+        Path(stored_image.poster_storage_path).unlink()
+        stored_image.poster_storage_path = None
+        db.commit()
+    image_preview = client.get(image_media["poster_url"], headers=auth)
+    assert image_preview.status_code == 200
+    with Image.open(BytesIO(image_preview.content)) as preview:
+        assert max(preview.size) == 640
 
     duplicate = client.post(
         f"/api/v1/activities/{activity_id}/media",

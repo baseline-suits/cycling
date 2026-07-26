@@ -15,6 +15,64 @@ function renderGallery() {
 afterEach(() => vi.restoreAllMocks())
 
 describe('ActivityPhotoGallery – Mehrfach-Upload', () => {
+  it('lädt für Fotokarten die kleine Medienvorschau statt der vollständigen Bilddatei', async () => {
+    const requested: string[] = []
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async (input) => {
+      const url = String(input)
+      requested.push(url)
+      if (url.endsWith('/media/config')) {
+        return new Response(JSON.stringify({
+          image_formats: ['JPEG', 'PNG', 'WebP'],
+          video_formats: ['MP4', 'MOV', 'WebM'],
+          max_image_bytes: 15 * 1024 * 1024,
+          max_video_bytes: 500 * 1024 * 1024,
+          max_video_duration_seconds: 900,
+        }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }
+      if (url.endsWith('/activities/ride-1/media')) {
+        return new Response(JSON.stringify({
+          items: [{
+            id: 'photo-1',
+            activity_id: 'ride-1',
+            media_type: 'image',
+            caption: null,
+            captured_at: null,
+            latitude: null,
+            longitude: null,
+            original_filename: 'pause.jpg',
+            content_type: 'image/webp',
+            size_bytes: 800_000,
+            original_size_bytes: 4_000_000,
+            width: 4000,
+            height: 3000,
+            duration_s: null,
+            container_format: null,
+            video_codec: null,
+            audio_codec: null,
+            orientation_degrees: null,
+            file_url: '/api/v1/activities/ride-1/photos/photo-1/file',
+            original_file_url: '/api/v1/activities/ride-1/photos/photo-1/original',
+            poster_url: '/api/v1/activities/ride-1/media/photo-1/poster',
+            processing_status: 'ready',
+            processing_error: null,
+            created_at: '2026-07-26T10:00:00Z',
+            updated_at: '2026-07-26T10:00:00Z',
+          }],
+          total: 1,
+        }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+      }
+      if (url.endsWith('/media/photo-1/poster')) {
+        return new Response(new Blob(['preview'], { type: 'image/webp' }), { status: 200 })
+      }
+      return new Response(null, { status: 404 })
+    })
+
+    renderGallery()
+    expect(await screen.findByRole('img', { name: 'pause.jpg' })).toBeInTheDocument()
+    expect(requested.some((url) => url.endsWith('/media/photo-1/poster'))).toBe(true)
+    expect(requested.some((url) => url.endsWith('/photos/photo-1/file'))).toBe(false)
+  })
+
   it('kommuniziert unterstützte Videoformate und akzeptiert MP4, MOV und WebM', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ items: [], total: 0 }), {
       status: 200,

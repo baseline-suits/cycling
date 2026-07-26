@@ -266,6 +266,7 @@ def create_video_derivatives(
         probe.container_format == "mp4"
         and probe.video_codec in DIRECT_PLAY_VIDEO_CODECS
         and probe.audio_codec in DIRECT_PLAY_AUDIO_CODECS
+        and max(probe.width, probe.height) <= 1920
     )
     try:
         if compatible:
@@ -292,6 +293,20 @@ def create_video_derivatives(
                 error="Die browserkompatible Videovariante konnte nicht erstellt werden.",
             )
         else:
+            encoder = _h264_encoder(settings.ffmpeg_path)
+            video_encoding = [
+                "-c:v",
+                encoder,
+                "-vf",
+                "scale=w='min(1920,iw)':h='min(1920,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2",
+                "-pix_fmt",
+                "yuv420p",
+            ]
+            video_encoding.extend(
+                ["-preset", "veryfast", "-crf", "24"]
+                if encoder == "libx264"
+                else ["-b:v", "5000k"]
+            )
             _run(
                 [
                     settings.ffmpeg_path,
@@ -303,10 +318,7 @@ def create_video_derivatives(
                     "0:v:0",
                     "-map",
                     "0:a:0?",
-                    "-c:v",
-                    _h264_encoder(settings.ffmpeg_path),
-                    "-pix_fmt",
-                    "yuv420p",
+                    *video_encoding,
                     "-c:a",
                     "aac",
                     "-b:a",

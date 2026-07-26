@@ -18,6 +18,7 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 MAX_PHOTO_BYTES = 15 * 1024 * 1024
 MAX_PHOTO_PIXELS = 40_000_000
 MAX_PHOTOS_PER_ACTIVITY = 30
+PHOTO_THUMBNAIL_MAX_EDGE = 640
 ALLOWED_IMAGE_FORMATS = {"JPEG", "PNG", "WEBP"}
 
 
@@ -73,6 +74,19 @@ def _server_generated_destination(upload_dir: Path, photo_id: str) -> Path:
     root = _photo_root(upload_dir)
     shard = normalized_id.replace("-", "")[:2]
     destination = (root / shard / f"{normalized_id}.webp").resolve()
+    if not destination.is_relative_to(root):
+        raise ValueError("Der Fotozielpfad liegt außerhalb des Uploadverzeichnisses.")
+    return destination
+
+
+def _thumbnail_destination(upload_dir: Path, photo_id: str) -> Path:
+    try:
+        normalized_id = str(uuid.UUID(photo_id))
+    except (ValueError, AttributeError) as exc:
+        raise ValueError("Ungültige serverseitige Foto-ID.") from exc
+    root = _photo_root(upload_dir)
+    shard = normalized_id.replace("-", "")[:2]
+    destination = (root / shard / f"{normalized_id}.thumb.webp").resolve()
     if not destination.is_relative_to(root):
         raise ValueError("Der Fotozielpfad liegt außerhalb des Uploadverzeichnisses.")
     return destination
@@ -170,6 +184,41 @@ def create_optimized_photo(original_path: Path, photo_id: str, upload_dir: Path)
     return StoredPhoto(
         path=destination,
         file_hash=hashlib.sha256(data).hexdigest(),
+        size_bytes=destination.stat().st_size,
+        width=width,
+        height=height,
+    )
+
+
+def create_photo_thumbnail(source_path: Path, photo_id: str, upload_dir: Path) -> StoredPhoto:
+    """Create a small gallery preview without replacing the display variant."""
+    destination = _thumbnail_destination(upload_dir, photo_id)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.parent / f".{uuid.uuid4()}.thumb.tmp"
+    try:
+        with Image.open(source_path) as source:
+            source.load()
+            normalized = ImageOps.exif_transpose(source)
+            has_alpha = normalized.mode in {"RGBA", "LA"} or (
+                normalized.mode == "P" and "transparency" in normalized.info
+            )
+            output = normalized.convert("RGBA" if has_alpha else "RGB")
+            try:
+                output.thumbnail(
+                    (PHOTO_THUMBNAIL_MAX_EDGE, PHOTO_THUMBNAIL_MAX_EDGE),
+                    Image.Resampling.LANCZOS,
+                )
+                width, height = output.size
+                output.save(temporary, format="WEBP", quality=78, method=4)
+            finally:
+                output.close()
+        os.replace(temporary, destination)
+    except (Image.DecompressionBombError, Image.DecompressionBombWarning, UnidentifiedImageError, OSError, ValueError) as exc:
+        temporary.unlink(missing_ok=True)
+        raise PhotoValidationError("Die Fotovorschau konnte nicht erstellt werden.") from exc
+    return StoredPhoto(
+        path=destination,
+        file_hash=hashlib.sha256(source_path.read_bytes()).hexdigest(),
         size_bytes=destination.stat().st_size,
         width=width,
         height=height,
