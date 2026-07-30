@@ -30,8 +30,8 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ghcr.io/dimitrilul/avento-backend:latest
-            ghcr.io/dimitrilul/avento-backend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/cycling-backend:latest
+            ghcr.io/${{ github.repository_owner }}/cycling-backend:${{ github.sha }}
 
       - name: Web-Image bauen und veröffentlichen
         uses: docker/build-push-action@v6
@@ -41,5 +41,5 @@ jobs:
           build-args: |
             VITE_API_URL=/api/v1
           tags: |
-            ghcr.io/dimitrilul/avento-web:latest
-            ghcr.io/dimitrilul/avento-web:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/cycling-web:latest
+            ghcr.io/${{ github.repository_owner }}/cycling-web:${{ github.sha }}

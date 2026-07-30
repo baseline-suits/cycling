@@ -18,7 +18,7 @@ services:
       start_period: 10s
 
   backend:
-    image: ghcr.io/dimitrilul/avento-backend:latest
+    image: ghcr.io/baseline-suits/cycling-backend:latest
     restart: unless-stopped
     init: true
     environment:
@@ -59,7 +59,7 @@ services:
       start_period: 20s
 
   web:
-    image: ghcr.io/dimitrilul/avento-web:latest
+    image: ghcr.io/baseline-suits/cycling-web:latest
     restart: unless-stopped
     depends_on:
       backend:

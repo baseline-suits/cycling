@@ -12,10 +12,10 @@ Die Web-App enthält außerdem eine optional aktivierbare, Dark-only **Minimal U
 </p>
 
 <p align="center">
-  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-0E6562?style=flat-square&logo=python&logoColor=white">
-  <img alt="React 19" src="https://img.shields.io/badge/React-19-0E6562?style=flat-square&logo=react&logoColor=white">
-  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-Android-A5C838?style=flat-square&logo=kotlin&logoColor=white">
-  <img alt="Docker Compose" src="https://img.shields.io/badge/Docker-Compose-A5C838?style=flat-square&logo=docker&logoColor=white">
+  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-5E7F1C?style=flat-square&logo=python&logoColor=white">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-5E7F1C?style=flat-square&logo=react&logoColor=white">
+  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-Android-8F86FF?style=flat-square&logo=kotlin&logoColor=white">
+  <img alt="Docker Compose" src="https://img.shields.io/badge/Docker-Compose-8F86FF?style=flat-square&logo=docker&logoColor=white">
 </p>
 
 <p align="center">
@@ -223,8 +223,8 @@ Das Restore-Skript verlangt vor dem Überschreiben die Eingabe `RESTORE`.
 
 Das Rebranding ändert keine bestehenden Installations- und Datenpfade. Deshalb
 bleiben die Umgebungsvariablen mit Präfix `AVENTO_`, die Android-Paket-ID
-`de.avento.app`, bestehende Browser-Storage-Keys, Docker-Image-Namen sowie
-interne Paket-, Modul-, CSS- und MCP-Bezeichner wie `avento-read-only` erhalten.
+`de.avento.app`, bestehende Browser-Storage-Keys sowie interne Paket-, Modul-,
+CSS- und MCP-Bezeichner wie `avento-read-only` erhalten.
 Sie sind nicht nutzerseitig sichtbar und vermeiden unnötige Migrationen oder
 abgemeldete Sitzungen.
 
