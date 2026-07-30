@@ -64,7 +64,7 @@ data class OverlayConfig(
     val format: OverlayFormat = OverlayFormat.PORTRAIT,
     val theme: OverlayTheme = OverlayTheme.DARK,
     val background: OverlayBackground = OverlayBackground.SOLID,
-    val solidColor: Int = 0xFF0E6562.toInt(),
+    val solidColor: Int = 0xFF080A0D.toInt(),
     val photoId: String? = null,
     val photoPositionPercent: Float = 50f,
     val metrics: List<OverlayMetric> = listOf(OverlayMetric.DISTANCE, OverlayMetric.MOVING_TIME, OverlayMetric.AVG_SPEED, OverlayMetric.ELEVATION),

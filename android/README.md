@@ -1,4 +1,4 @@
-# Avento Android
+# Baseline Cycling Android
 
 Native Android-App mit Kotlin, Jetpack Compose und Material 3. Die App verwendet
 dieselbe REST-API wie die Web-App und speichert keine Aktivitäten dauerhaft auf
@@ -14,15 +14,15 @@ Voraussetzungen: JDK 17 oder neuer, Android SDK 36 und Build Tools 36.0.0.
 ./gradlew testDebugUnitTest assembleDebug
 ```
 
-Beim ersten Start muss die Adresse des Avento-Servers eingegeben werden, zum
-Beispiel `https://avento.example.de`. `/api/v1/` wird automatisch ergänzt. Die
+Beim ersten Start muss die Adresse des Baseline Cycling-Servers eingegeben werden, zum
+Beispiel `https://cycling.example.de`. `/api/v1/` wird automatisch ergänzt. Die
 Adresse kann auf der Anmeldeseite später geändert werden. HTTPS wird empfohlen;
 für lokale Entwicklungsserver wird auch HTTP unterstützt.
 
 ## Import
 
 TCX-Dateien können über „TCX importieren“ oder über das Android-Teilen-Menü an
-Avento übergeben werden. Die Datei wird direkt an das Backend hochgeladen; die
+Baseline Cycling übergeben werden. Die Datei wird direkt an das Backend hochgeladen; die
 serverseitige Aktivität ist danach auch in der Web-App sichtbar.
 
 ## Sicherheit

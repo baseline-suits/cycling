@@ -21,7 +21,7 @@ export class MinimalErrorBoundary extends Component<{ children: ReactNode }, Sta
       <Box component="main" sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', p: 3, bgcolor: '#090E0D', color: '#F3F7F6' }}>
         <Stack alignItems="center" textAlign="center" spacing={2} sx={{ maxWidth: 560 }}>
           <ErrorOutlineRoundedIcon color="error" sx={{ fontSize: 52 }} />
-          <Typography component="h1" variant="h2">Avento konnte diese Ansicht nicht öffnen.</Typography>
+          <Typography component="h1" variant="h2">Baseline Cycling konnte diese Ansicht nicht öffnen.</Typography>
           <Typography color="text.secondary">Deine Daten wurden nicht verändert. Lade die Seite neu oder kehre zur Übersicht zurück.</Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
             <Button variant="contained" onClick={() => window.location.reload()}>Neu laden</Button>

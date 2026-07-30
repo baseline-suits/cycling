@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str = "Avento API"
+    app_name: str = "Baseline Cycling API"
     environment: str = "development"
     database_url: str = "sqlite:///./avento.db"
     secret_key: str = Field(default="development-only-secret-change-me-please", min_length=32)
@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     mcp_access_token_minutes: int = Field(default=10, ge=1, le=15)
     mcp_allowed_origins: str = "http://localhost,http://127.0.0.1,http://[::1]"
     public_url: str | None = None
-    webauthn_rp_name: str = "Avento"
+    webauthn_rp_name: str = "Baseline Cycling"
     webauthn_rp_id: str | None = None
     mcp_resource_uri: str | None = None
     mcp_oauth_access_token_minutes: int = Field(default=15, ge=1, le=60)
@@ -64,7 +64,7 @@ class Settings(BaseSettings):
     reverse_geocoding_max_samples: int = Field(default=8, ge=0, le=12)
     reverse_geocoding_minimum_spacing_m: float = Field(default=1_500.0, ge=0, le=1_000_000)
     reverse_geocoding_coordinate_precision: int = Field(default=4, ge=3, le=6)
-    reverse_geocoding_user_agent: str = "Avento/0.1 (self-hosted route insights)"
+    reverse_geocoding_user_agent: str = "Baseline Cycling/0.1 (self-hosted route insights)"
     reverse_geocoding_language: str = "de"
     reverse_geocoding_maximum_failures: int = Field(default=2, ge=1, le=3)
     reverse_geocoding_backfill_mode: bool = False

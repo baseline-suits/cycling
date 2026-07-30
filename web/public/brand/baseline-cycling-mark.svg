@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Baseline Cycling</title>
+  <desc id="description">Ein Baseline-B mit stilisiertem Fahrrad</desc>
+  <rect width="512" height="512" rx="88" fill="#080a0d"/>
+  <path
+    fill="#f2f5ef"
+    d="M102 124h176c65 0 118 53 118 118 0 29-10 55-27 76l-42-30c9-13 14-29 14-46 0-36-29-65-65-65H102v-53Z"
+  />
+  <path fill="#f2f5ef" d="M102 337h296c8 16 12 33 12 51H102v-51Z"/>
+  <g fill="none" stroke="#b9e878" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+    <circle cx="218" cy="288" r="24"/>
+    <circle cx="306" cy="288" r="24"/>
+    <path d="m218 288 30-48 30 48h-60Zm30-48 45 3 13 45m-58-48-8-18h18m20 66 16-45m-8-11h18"/>
+  </g>
+  <circle cx="271" cy="211" r="10" fill="#b9e878"/>
+</svg>

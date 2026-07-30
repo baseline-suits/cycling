@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "avento-backend"
 version = "0.1.0"
-description = "Avento cycling analysis API"
+description = "Baseline Cycling analysis API"
 requires-python = ">=3.11"
 dependencies = [
   "alembic>=1.13,<2",

@@ -27,7 +27,7 @@ export function AuthLayout() {
           p: { md: 6, lg: 9 },
           color: 'white',
           alignItems: 'center',
-          background: 'radial-gradient(circle at 80% 15%, rgba(165,200,56,.48), transparent 28%), linear-gradient(145deg, #083B3A 0%, #0E6562 62%, #185F50 100%)',
+          background: 'radial-gradient(circle at 82% 18%, rgba(185,232,120,.2), transparent 30%), radial-gradient(circle at 16% 82%, rgba(143,134,255,.16), transparent 34%), linear-gradient(145deg, #080A0D 0%, #11151D 58%, #171923 100%)',
           '&::after': {
             content: '""',
             position: 'absolute',
@@ -46,7 +46,7 @@ export function AuthLayout() {
             Jede Fahrt erzählt eine Geschichte.
           </Typography>
           <Typography variant="h6" sx={{ fontWeight: 450, color: 'rgba(255,255,255,.75)', maxWidth: 560, lineHeight: 1.6 }}>
-            Avento verbindet Strecke, Leistung, Wetter und KI zu einem klaren Blick auf dein Radtraining.
+            Baseline Cycling verbindet Strecke, Leistung, Wetter und KI zu einem klaren Blick auf dein Radtraining.
           </Typography>
           <Stack direction="row" flexWrap="wrap" gap={1.5}>
             <Feature icon={<CloudDoneRoundedIcon />} label="Überall synchron" />

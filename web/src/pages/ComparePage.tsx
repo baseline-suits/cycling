@@ -123,7 +123,7 @@ export function ComparePage() {
       <PageHeader
         eyebrow="FAHRT GEGEN FAHRT"
         title="Professioneller Vergleich"
-        description="Vergleiche nicht nur Gesamtwerte: normalisierte Verläufe, Puls-Effizienz, Windeinfluss und Avento Insight zeigen, warum eine Fahrt stärker war."
+        description="Vergleiche nicht nur Gesamtwerte: normalisierte Verläufe, Puls-Effizienz, Windeinfluss und Baseline Cycling Insight zeigen, warum eine Fahrt stärker war."
       />
 
       {list.isError && <ErrorState error={list.error} onRetry={() => void list.refetch()} />}
@@ -160,7 +160,7 @@ export function ComparePage() {
               <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" gap={2}>
                 <Stack direction="row" spacing={1.25} alignItems="center">
                   <Box sx={{ width: 44, height: 44, display: 'grid', placeItems: 'center', borderRadius: 3, bgcolor: 'primary.main', color: 'white' }}><AutoAwesomeRoundedIcon /></Box>
-                  <Box><Typography variant="h3">Avento Insight</Typography><Typography variant="body2" color="text.secondary">KI-Einordnung dieses Vergleichs</Typography></Box>
+                  <Box><Typography variant="h3">Baseline Cycling Insight</Typography><Typography variant="body2" color="text.secondary">KI-Einordnung dieses Vergleichs</Typography></Box>
                 </Stack>
                 {compare.data?.ai_provider && <Chip size="small" variant="outlined" label={compare.data.ai_provider} sx={{ alignSelf: 'flex-start' }} />}
               </Stack>

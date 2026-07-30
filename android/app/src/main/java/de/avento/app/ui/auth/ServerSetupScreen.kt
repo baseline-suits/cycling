@@ -58,10 +58,10 @@ fun ServerSetupScreen(onSave: (String) -> Result<Unit>) {
                     tint = MaterialTheme.colorScheme.primary,
                 )
                 Spacer(Modifier.height(16.dp))
-                Text("Avento-Server verbinden", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                Text("Baseline Cycling-Server verbinden", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    "Gib zuerst die Adresse deines Avento-Servers ein. Danach kannst du dich mit dem dort angelegten Konto anmelden.",
+                    "Gib zuerst die Adresse deines Baseline Cycling-Servers ein. Danach kannst du dich mit dem dort angelegten Konto anmelden.",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(Modifier.height(24.dp))
@@ -69,7 +69,7 @@ fun ServerSetupScreen(onSave: (String) -> Result<Unit>) {
                     value = serverUrl,
                     onValueChange = { serverUrl = it; error = null },
                     label = { Text("Server-Adresse") },
-                    placeholder = { Text("https://avento.example.de") },
+                    placeholder = { Text("https://cycling.example.de") },
                     supportingText = { Text("/api/v1 wird automatisch ergänzt. HTTPS wird empfohlen.") },
                     isError = error != null,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri, imeAction = ImeAction.Done),

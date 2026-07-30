@@ -1,4 +1,4 @@
-# Avento Backend
+# Baseline Cycling Backend
 
 FastAPI-API für Anmeldung, TCX-Import, serverseitige Auswertung, Wetter und Aktivitätszusammenfassungen.
 
@@ -34,12 +34,12 @@ gespeichert. Ein erfolgreicher Reset über `POST /api/v1/auth/password-reset` so
 Passwortwechsel über `POST /api/v1/profile/password` widerrufen alle Refresh-Sitzungen des Benutzers.
 
 Ohne OpenAI-Schlüssel erstellt der Server deterministische lokale Coaching-Zusammenfassungen und beantwortet
-häufige Fragen im Avento Coach regelbasiert. Mit `AVENTO_OPENAI_API_KEY` verwendet er die Responses API und
+häufige Fragen im Baseline Cycling Coach regelbasiert. Mit `AVENTO_OPENAI_API_KEY` verwendet er die Responses API und
 standardmäßig `gpt-5.4-mini`. Der Coach ruft Trainingsdaten über serverseitig abgesicherte Tools ab; dabei kann
 er Aktivitäten suchen, ähnliche Fahrten finden, Zeiträume vergleichen und Streckenabschnitte analysieren.
 
 Wetter wird über Open-Meteo an mehreren Punkten entlang der Strecke und zur jeweiligen Fahrzeit ermittelt.
-Avento berechnet daraus Gegen-, Rücken- und Seitenwind relativ zur tatsächlichen Fahrtrichtung. Die Anzahl der
+Baseline Cycling berechnet daraus Gegen-, Rücken- und Seitenwind relativ zur tatsächlichen Fahrtrichtung. Die Anzahl der
 Stichproben lässt sich mit `AVENTO_WEATHER_ROUTE_SAMPLES` zwischen 3 und 12 konfigurieren. Ein nicht erreichbarer
 Anbieter verhindert den TCX-Import nicht.
 

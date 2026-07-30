@@ -6,7 +6,7 @@ export function MetricCard({
   label,
   value,
   icon,
-  accent = '#0E6562',
+  accent = '#5E7F1C',
   delta,
   hint,
 }: {

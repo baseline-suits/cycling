@@ -155,7 +155,7 @@ fun DashboardScreen(
                                 .background(AventoPalette.Lime, RoundedCornerShape(4.dp)),
                         )
                         Spacer(Modifier.width(10.dp))
-                        Text("Avento", style = MaterialTheme.typography.titleLarge)
+                        Text("Baseline Cycling", style = MaterialTheme.typography.titleLarge)
                     }
                 },
                 actions = {
@@ -209,7 +209,7 @@ fun DashboardScreen(
                                 onClick = { showAccountMenu = false; onNavigate("insights") },
                             )
                             DropdownMenuItem(
-                                text = { Text("Avento Insights") },
+                                text = { Text("Baseline Cycling Insights") },
                                 onClick = { showAccountMenu = false; onNavigate("chat") },
                             )
                             DropdownMenuItem(

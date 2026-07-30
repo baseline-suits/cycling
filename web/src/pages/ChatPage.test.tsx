@@ -27,7 +27,7 @@ describe('MinimalChatPage', () => {
       .mockResolvedValueOnce({ answer: 'Plane eine lockere Fahrt.', provider: 'local', sources: [], tools_used: [], data_basis: null })
     renderPage()
 
-    await user.type(screen.getByRole('textbox', { name: 'Nachricht an Avento Chat' }), 'Was trainiere ich morgen?')
+    await user.type(screen.getByRole('textbox', { name: 'Nachricht an Baseline Cycling Chat' }), 'Was trainiere ich morgen?')
     await user.click(screen.getByRole('button', { name: 'Nachricht senden' }))
     expect(await screen.findByText('Coach vorübergehend nicht erreichbar')).toBeInTheDocument()
 

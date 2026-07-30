@@ -52,11 +52,11 @@ object OverlayRenderer {
     }
 
     private fun palette(theme: OverlayTheme) = if (theme == OverlayTheme.DARK) Palette(
-        0xFF071C1B.toInt(), 0xE80D2A28.toInt(), Color.WHITE, 0xFFB7CAC5.toInt(),
-        0xFFB8D95B.toInt(), 0xFFF2B85B.toInt(), 0xDD061E1D.toInt(),
+        0xFF080A0D.toInt(), 0xE8171923.toInt(), 0xFFF2F5EF.toInt(), 0xFFC4CBC0.toInt(),
+        0xFFB9E878.toInt(), 0xFFF0B65E.toInt(), 0xDD080A0D.toInt(),
     ) else Palette(
-        0xFFF5F7F3.toInt(), 0xEFFFFFFF.toInt(), 0xFF172322.toInt(), 0xFF61706E.toInt(),
-        0xFF0E6562.toInt(), 0xFFD77A30.toInt(), 0xEEFFFFFF.toInt(),
+        0xFFF2F5EF.toInt(), 0xEFFFFFFF.toInt(), 0xFF151A12.toInt(), 0xFF62695E.toInt(),
+        0xFF5E7F1C.toInt(), 0xFFB97616.toInt(), 0xEEFFFFFF.toInt(),
     )
 
     private fun drawBackground(canvas: Canvas, paint: Paint, content: OverlayShareContent, config: OverlayConfig, palette: Palette, photo: Bitmap?, mapBitmap: Bitmap?) {
@@ -68,8 +68,8 @@ object OverlayRenderer {
                     drawCoverBitmap(canvas, mapBitmap, config.format.width, config.format.height, 50f)
                     if (config.theme == OverlayTheme.DARK) { paint.color = 0x66031817; canvas.drawRect(0f, 0f, config.format.width.toFloat(), config.format.height.toFloat(), paint) }
                 } else {
-                    canvas.drawColor(if (config.theme == OverlayTheme.DARK) 0xFF18322F.toInt() else 0xFFDDE9E1.toInt())
-                    paint.color = if (config.theme == OverlayTheme.DARK) 0x224DD6CC else 0x22718F88
+                    canvas.drawColor(if (config.theme == OverlayTheme.DARK) 0xFF171923.toInt() else 0xFFE9EDE5.toInt())
+                    paint.color = if (config.theme == OverlayTheme.DARK) 0x2261D8DD else 0x225E7F1C
                     paint.strokeWidth = 2f
                     for (x in -config.format.height until config.format.width step 120) canvas.drawLine(x.toFloat(), 0f, (x + config.format.height).toFloat(), config.format.height.toFloat(), paint)
                 }
@@ -160,7 +160,7 @@ object OverlayRenderer {
     }
 
     private fun header(canvas: Canvas, paint: Paint, content: OverlayShareContent, config: OverlayConfig, palette: Palette, x: Float, y: Float) {
-        if (config.showBrand) text(canvas, paint, "avento", x, y, 38f, palette.text, true)
+        if (config.showBrand) text(canvas, paint, "Baseline Cycling", x, y, 38f, palette.text, true)
         if (config.showDate) {
             val date = if (content is OverlayShareContent.ActivityContent) content.activity.startedAt.asGermanDateTime() else content.dateLabel
             val weather = if (config.showWeather && content is OverlayShareContent.ActivityContent) {

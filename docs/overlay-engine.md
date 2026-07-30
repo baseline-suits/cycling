@@ -1,4 +1,4 @@
-# Avento Share-Overlay-Engine
+# Baseline Cycling Share-Overlay-Engine
 
 Die Share-Engine erzeugt eigenständige PNG-Grafiken für Aktivitäten, persönliche Rekorde und periodische Rückblicke. Web und Android verwenden denselben fachlichen Vertrag, rendern aber jeweils nativ. Dadurch entspricht die Vorschau dem späteren Export und beide Clients bleiben ohne serverseitigen Bilddienst nutzbar.
 
@@ -14,7 +14,7 @@ Im Web registriert jede Vorlage eine eigene React-Layoutfunktion. `OverlayCanvas
 
 Android registriert pro Vorlage eine Canvas-Layoutfunktion. `OverlayRenderer` zeichnet in der exakten Zielauflösung; die Compose-Oberfläche verwendet eine verkleinerte Ausgabe als Live-Vorschau. Der Export läuft außerhalb des UI-Threads und wird anschließend über das System-Share-Sheet geteilt.
 
-Karten werden mit MapLibre und OpenFreeMap erzeugt. Die Route wird in Avento-Farben mit kontrastierender Unterlinie dargestellt und seitenverhältnisgerecht eingepasst. Wenn Kartenkacheln nicht innerhalb von acht Sekunden verfügbar sind, bleibt eine eigene Route-only-Darstellung exportierbar. Exporte mit Basiskarte enthalten die erforderliche Quellenangabe. Fotos werden ausschließlich authentifiziert aus der Aktivitätsgalerie geladen; temporäre URLs und Bitmaps werden nicht dauerhaft gespeichert.
+Karten werden mit MapLibre und OpenFreeMap erzeugt. Die Route wird in Baseline Cycling-Farben mit kontrastierender Unterlinie dargestellt und seitenverhältnisgerecht eingepasst. Wenn Kartenkacheln nicht innerhalb von acht Sekunden verfügbar sind, bleibt eine eigene Route-only-Darstellung exportierbar. Exporte mit Basiskarte enthalten die erforderliche Quellenangabe. Fotos werden ausschließlich authentifiziert aus der Aktivitätsgalerie geladen; temporäre URLs und Bitmaps werden nicht dauerhaft gespeichert.
 
 ## Neue Vorlage ergänzen
 
@@ -28,6 +28,6 @@ Die PNG-Adapter, Datenmodelle und bestehenden Vorlagen dürfen dafür nicht ver�
 ## Fehler- und Leerzustände
 
 - Ohne GPS wird die Kartenwahl deaktiviert und die Route als Indoor-Zustand dargestellt.
-- Ohne Galeriefoto ist der Fotohintergrund deaktiviert; die Photo-Vorlage fällt auf eine Avento-Farbe zurück.
+- Ohne Galeriefoto ist der Fotohintergrund deaktiviert; die Photo-Vorlage fällt auf eine Baseline Cycling-Farbe zurück.
 - Nicht vorhandene Herzfrequenz-, Leistungs-, Trittfrequenz- oder Wetterwerte werden nicht in das PNG übernommen.
 - Bis zu sechs Kennzahlen werden automatisch umgebrochen. Lange Titel werden verkleinert, mehrzeilig gesetzt und erst als letzte Absicherung mit Auslassungszeichen begrenzt.

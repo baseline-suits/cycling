@@ -142,7 +142,7 @@ export function TrackMap({
         id: 'route-line',
         type: 'line',
         source: 'route',
-        paint: { 'line-color': minimal ? '#65C8C1' : '#0E6562', 'line-width': 4, 'line-opacity': .9 },
+        paint: { 'line-color': minimal ? '#B9E878' : '#5E7F1C', 'line-width': 4, 'line-opacity': .9 },
         layout: { 'line-cap': 'round', 'line-join': 'round' },
       })
       map.addSource('selected-route', { type: 'geojson', data: emptyFeatureCollection() })
@@ -175,7 +175,7 @@ export function TrackMap({
         id: 'track-hit-area',
         type: 'circle',
         source: 'track-points',
-        paint: { 'circle-radius': 11, 'circle-color': '#0E6562', 'circle-opacity': .001 },
+        paint: { 'circle-radius': 11, 'circle-color': '#5E7F1C', 'circle-opacity': .001 },
       })
 
       map.on('mouseenter', 'track-hit-area', () => { map.getCanvas().style.cursor = 'crosshair' })
@@ -185,7 +185,7 @@ export function TrackMap({
         if (Number.isFinite(sourceIndex)) hoverCallbackRef.current?.(sourceIndex)
       })
 
-      new maplibregl.Marker({ color: minimal ? '#B8D95B' : '#A5C838' }).setLngLat(coordinates[0]).addTo(map)
+      new maplibregl.Marker({ color: minimal ? '#B9E878' : '#B9E878' }).setLngLat(coordinates[0]).addTo(map)
       new maplibregl.Marker({ color: minimal ? '#E89586' : '#E26D5A' }).setLngLat(coordinates.at(-1)!).addTo(map)
       const bounds = coordinates.reduce(
         (current, coordinate) => current.extend(coordinate),
@@ -228,10 +228,10 @@ export function TrackMap({
       Object.assign(element.style, {
         alignItems: 'center',
         background: minimal ? '#111817' : '#FFFFFF',
-        border: `2px solid ${minimal ? '#65C8C1' : '#0E6562'}`,
+        border: `2px solid ${minimal ? '#B9E878' : '#5E7F1C'}`,
         borderRadius: '999px',
         boxShadow: '0 2px 8px rgba(23, 35, 34, .2)',
-        color: minimal ? '#F3F7F6' : '#083B3A',
+        color: minimal ? '#F3F7F6' : '#080A0D',
         display: 'flex',
         font: '700 10px Manrope, sans-serif',
         height: '24px',
@@ -306,5 +306,5 @@ export function TrackMap({
     )
   }
 
-  return <Box ref={container} role="region" tabIndex={0} aria-label="Karte der gefahrenen Strecke. Eine Textalternative ist darunter verfügbar." data-map-variant={variant} sx={{ width: '100%', height, minHeight: 240, '& .maplibregl-ctrl button:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: 2 } }} />
+  return <Box ref={container} role="region" tabIndex={0} aria-label="Karte der gefahrenen Strecke. Eine Textalternative ist darunter verfügbar." data-map-variant={variant} sx={{ width: '100%', height, minHeight: 240, '& .maplibregl-ctrl button:focus-visible': { outline: '2px solid #B9E878', outlineOffset: 2 } }} />
 }

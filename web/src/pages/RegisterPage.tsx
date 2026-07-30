@@ -36,7 +36,7 @@ export function RegisterPage() {
   return (
     <Stack component="form" onSubmit={submit} spacing={2}>
       <Box>
-        <Typography variant="h2">Dein Avento-Konto</Typography>
+        <Typography variant="h2">Dein Baseline Cycling-Konto</Typography>
         <Typography color="text.secondary" sx={{ mt: 1 }}>Registriere dich mit dem Einladungscode deines Administrators.</Typography>
       </Box>
       {error && <Alert severity="error">{error}</Alert>}

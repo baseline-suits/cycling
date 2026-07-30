@@ -45,11 +45,11 @@ button, input, textarea { font: inherit; }
 }
 
 html[data-ui-mode='minimal'] {
-  background: #090e0d;
+  background: #080a0d;
 }
 
 html[data-ui-mode='minimal'] :where(a, button, input, textarea, select, [tabindex]):focus-visible {
-  outline: 2px solid #65c8c1;
+  outline: 2px solid #d8ffac;
   outline-offset: 3px;
 }
 

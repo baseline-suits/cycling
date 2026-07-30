@@ -8,8 +8,8 @@ class ServerConfigStoreTest {
     @Test
     fun `normalizes host and adds api path`() {
         assertEquals(
-            "https://avento.example.de/api/v1/",
-            normalizeServerUrl("avento.example.de"),
+            "https://cycling.example.de/api/v1/",
+            normalizeServerUrl("cycling.example.de"),
         )
         assertEquals(
             "http://192.168.1.20:8000/api/v1/",
@@ -20,11 +20,11 @@ class ServerConfigStoreTest {
     @Test
     fun `keeps existing api path and rejects unsupported schemes`() {
         assertEquals(
-            "https://avento.example.de/api/v1/",
-            normalizeServerUrl("https://avento.example.de/api/v1"),
+            "https://cycling.example.de/api/v1/",
+            normalizeServerUrl("https://cycling.example.de/api/v1"),
         )
         assertThrows(IllegalArgumentException::class.java) {
-            normalizeServerUrl("ftp://avento.example.de")
+            normalizeServerUrl("ftp://cycling.example.de")
         }
     }
 }

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/avento-logo-banner.png" alt="Avento – Radfahranalyse" width="720">
+  <img src="docs/assets/baseline-cycling-banner.png" alt="Baseline Cycling – Radfahranalyse" width="720">
 </p>
 
 Aktivitäten, Rekorde sowie Wochen-, Monats- und Jahresrückblicke lassen sich im Web und in der Android-App als konfigurierbare Share-Grafiken exportieren. Die Architektur der sechs Vorlagen und der Karten-/Foto-Pipeline ist in [docs/overlay-engine.md](docs/overlay-engine.md) beschrieben.
@@ -19,16 +19,16 @@ Die Web-App enthält außerdem eine optional aktivierbare, Dark-only **Minimal U
 </p>
 
 <p align="center">
-  <img src="docs/assets/avento-login.jpg" alt="Avento Web-App mit Anmeldung und Produktübersicht" width="100%">
+  <img src="docs/assets/baseline-cycling-social.png" alt="Baseline Cycling – Deine Fahrt. Dein Fortschritt." width="100%">
 </p>
 
 <p align="center"><sub>Eine responsive Web-App und eine native Android-App greifen auf dasselbe FastAPI-Backend zu.</sub></p>
 
 ---
 
-## Was ist Avento?
+## Was ist Baseline Cycling?
 
-Avento ist eine private Full-Stack-Plattform für Radfahranalyse und
+Baseline Cycling ist eine private Full-Stack-Plattform für Radfahranalyse und
 Streckenvisualisierung. Importierte TCX-Dateien werden serverseitig gespeichert,
 analysiert, entlang der Strecke mit historischen Wetterdaten angereichert und
 optional durch einen persönlichen KI-Coach ausgewertet.
@@ -97,10 +97,10 @@ cp .env.example .env
 docker compose up --build -d
 ```
 
-Danach ist Avento unter der in `PUBLIC_URL` gesetzten Adresse erreichbar. Mit
+Danach ist Baseline Cycling unter der in `PUBLIC_URL` gesetzten Adresse erreichbar. Mit
 dem `BOOTSTRAP_INVITE_CODE` wird das erste Administratorkonto erstellt.
 
-Ohne `OPENAI_API_KEY` erzeugt Avento eine lokale, regelbasierte
+Ohne `OPENAI_API_KEY` erzeugt Baseline Cycling eine lokale, regelbasierte
 Zusammenfassung; alle übrigen Funktionen bleiben vollständig nutzbar.
 
 Eine kleine TCX-Beispieldatei zum Ausprobieren liegt unter
@@ -141,7 +141,7 @@ cd android
 ./gradlew testDebugUnitTest assembleDebug
 ```
 
-Beim ersten Start fragt die App nach der Adresse des Avento-Servers. Die
+Beim ersten Start fragt die App nach der Adresse des Baseline Cycling-Servers. Die
 erzeugte Debug-APK liegt unter
 `android/app/build/outputs/apk/debug/app-debug.apk`. Weitere Hinweise stehen in
 [`android/README.md`](android/README.md).
@@ -169,14 +169,14 @@ in Logs, Screenshots oder Support-Anfragen kopiert werden.
 
 ## Read-only-MCP
 
-Avento stellt seine Trainingsdaten über einen schreibgeschützten
+Baseline Cycling stellt seine Trainingsdaten über einen schreibgeschützten
 Streamable-HTTP-Endpunkt bereit. Entfernte MCP-Clients verwenden OAuth 2.1 mit
 Authorization Code, PKCE und automatisch rotierenden Refresh-Tokens. Beim
-ersten Verbinden öffnet sich der Avento-Login mit einer Scope-Freigabe.
+ersten Verbinden öffnet sich der Baseline Cycling-Login mit einer Scope-Freigabe.
 
 ```toml
 [mcp_servers.avento]
-url = "https://deine-avento-domain.example/api/v1/mcp/rpc"
+url = "https://deine-cycling-domain.example/api/v1/mcp/rpc"
 ```
 
 | Endpunkt | Zweck |
@@ -213,11 +213,20 @@ Ein vollständiges Restore überschreibt die aktuelle Datenbank und das
 Upload-Volume:
 
 ```bash
-make restore BACKUP_DB=backups/avento-<zeitstempel>.dump \
-  BACKUP_UPLOADS=backups/avento-uploads-<zeitstempel>.tar.gz
+make restore BACKUP_DB=backups/baseline-cycling-<zeitstempel>.dump \
+  BACKUP_UPLOADS=backups/baseline-cycling-uploads-<zeitstempel>.tar.gz
 ```
 
 Das Restore-Skript verlangt vor dem Überschreiben die Eingabe `RESTORE`.
+
+## Technische Kompatibilitätsnamen
+
+Das Rebranding ändert keine bestehenden Installations- und Datenpfade. Deshalb
+bleiben die Umgebungsvariablen mit Präfix `AVENTO_`, die Android-Paket-ID
+`de.avento.app`, bestehende Browser-Storage-Keys, Docker-Image-Namen sowie
+interne Paket-, Modul-, CSS- und MCP-Bezeichner wie `avento-read-only` erhalten.
+Sie sind nicht nutzerseitig sichtbar und vermeiden unnötige Migrationen oder
+abgemeldete Sitzungen.
 
 ---
 

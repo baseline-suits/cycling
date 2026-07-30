@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Avento Read-only MCP",
+    title="Baseline Cycling Read-only MCP",
     version="0.1.0",
     description=f"Lokaler, authentifizierter MCP-Endpunkt unter {RPC_PATH}.",
     lifespan=lifespan,

@@ -23,7 +23,7 @@ export function AiSummaryCard({ activityId, fallback, provider, dataBasis }: { a
         <Stack direction="row" alignItems="flex-start" justifyContent="space-between" gap={2}>
           <Stack direction="row" spacing={1.25} alignItems="center">
             <Box sx={{ width: 40, height: 40, display: 'grid', placeItems: 'center', borderRadius: 3, bgcolor: 'primary.main', color: 'white' }}><AutoAwesomeRoundedIcon /></Box>
-            <div><Typography variant="h3">Avento Insight</Typography><Typography variant="body2" color="text.secondary">Deine KI-Auswertung</Typography></div>
+            <div><Typography variant="h3">Baseline Cycling Insight</Typography><Typography variant="body2" color="text.secondary">Deine KI-Auswertung</Typography></div>
           </Stack>
           {activeProvider && <Chip size="small" label={activeProvider} variant="outlined" />}
         </Stack>

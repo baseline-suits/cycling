@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Avento Android"
+rootProject.name = "Baseline Cycling Android"
 include(":app")

@@ -33,7 +33,7 @@ export function BootstrapPage() {
   return (
     <Stack component="form" onSubmit={submit} spacing={2.25}>
       <Box>
-        <Typography variant="h2">Avento einrichten</Typography>
+        <Typography variant="h2">Baseline Cycling einrichten</Typography>
         <Typography color="text.secondary" sx={{ mt: 1 }}>Erstelle das erste Administratorkonto einer neuen Installation.</Typography>
       </Box>
       <Alert severity="info">Dieser Vorgang funktioniert nur, solange noch kein Konto existiert.</Alert>

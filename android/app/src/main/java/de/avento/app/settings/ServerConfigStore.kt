@@ -28,7 +28,7 @@ class ServerConfigStore(private val context: Context) {
 
 fun normalizeServerUrl(input: String): String {
     val trimmed = input.trim().trimEnd('/')
-    require(trimmed.isNotEmpty()) { "Bitte gib die Adresse deines Avento-Servers ein." }
+    require(trimmed.isNotEmpty()) { "Bitte gib die Adresse deines Baseline Cycling-Servers ein." }
     val withScheme = if (trimmed.contains("://")) trimmed else "https://$trimmed"
     val uri = runCatching { URI(withScheme) }.getOrNull()
         ?: throw IllegalArgumentException("Die Server-Adresse ist ungültig.")

@@ -1,4 +1,4 @@
-"""Initial Avento schema.
+"""Initial Baseline Cycling schema.
 
 Revision ID: 0001
 Revises:

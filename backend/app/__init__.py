@@ -1,2 +1,2 @@
-"""Avento backend package."""
+"""Baseline Cycling backend package."""
 

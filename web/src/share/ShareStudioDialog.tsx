@@ -25,7 +25,7 @@ import { useQuery } from '@tanstack/react-query'
 import { activityPhotosApi, type ActivityPhoto } from '../api'
 import { errorMessage } from '../utils/format'
 import { availableMetrics } from './content'
-import { AVENTO_SOLID_COLORS } from './design'
+import { BASELINE_CYCLING_SOLID_COLORS } from './design'
 import { downloadPng, exportOverlayPng } from './exportPng'
 import { OverlayCanvas } from './OverlayCanvas'
 import { photoBlobToDataUrl } from './photoDataUrl'
@@ -141,7 +141,7 @@ export function ShareStudioDialog({ open, onClose, content }: { open: boolean; o
     try {
       const blob = await exportOverlayPng(exportRef.current, config.formatId)
       const base = (content.kind === 'activity' ? content.activity.title : content.title).replace(/[^a-z0-9äöüß-]+/gi, '-').replace(/^-|-$/g, '').toLowerCase()
-      downloadPng(blob, `${base || 'avento'}-${config.templateId}-${FORMAT_SPECS[config.formatId].label.replace(':', 'x')}.png`)
+      downloadPng(blob, `${base || 'baseline-cycling'}-${config.templateId}-${FORMAT_SPECS[config.formatId].label.replace(':', 'x')}.png`)
     } catch (cause) {
       setError(errorMessage(cause))
     } finally {
@@ -170,7 +170,7 @@ export function ShareStudioDialog({ open, onClose, content }: { open: boolean; o
                 <ToggleButton value="transparent">Transparent</ToggleButton><ToggleButton value="solid">Farbe</ToggleButton><ToggleButton value="map" disabled={!routeAvailable}>Karte</ToggleButton><ToggleButton value="photo" disabled={photos.length === 0}>Foto</ToggleButton>
               </ToggleButtonGroup>
             </Stack>
-            {config.background === 'solid' && <Stack direction="row" gap={1} mt={1.25}>{AVENTO_SOLID_COLORS.map((color) => <Box component="button" aria-label={`Hintergrundfarbe ${color}`} key={color} onClick={() => update('solidColor', color)} sx={{ width: 34, height: 34, borderRadius: '50%', border: '3px solid', borderColor: config.solidColor === color ? 'primary.main' : 'divider', bgcolor: color, cursor: 'pointer' }} />)}</Stack>}
+            {config.background === 'solid' && <Stack direction="row" gap={1} mt={1.25}>{BASELINE_CYCLING_SOLID_COLORS.map((color) => <Box component="button" aria-label={`Hintergrundfarbe ${color}`} key={color} onClick={() => update('solidColor', color)} sx={{ width: 34, height: 34, borderRadius: '50%', border: '3px solid', borderColor: config.solidColor === color ? 'primary.main' : 'divider', bgcolor: color, cursor: 'pointer' }} />)}</Stack>}
             {config.background === 'photo' && photos.length > 0 && <Box mt={1.5}><Stack direction="row" gap={1} sx={{ overflowX: 'auto', pb: .5 }}>{photos.map((photo) => <Button key={photo.id} size="small" variant={selectedPhoto?.id === photo.id ? 'contained' : 'outlined'} onClick={() => update('photoId', photo.id)}>{photo.caption || photo.original_filename}</Button>)}</Stack><Typography variant="caption" color="text.secondary">Vertikaler Bildausschnitt</Typography><Slider min={0} max={100} value={config.photoPosition} onChange={(_, value) => update('photoPosition', value as number)} /></Box>}
             {config.background === 'photo' && photoQuery.isError && <Alert severity="warning" sx={{ mt: 1 }}>{errorMessage(photoQuery.error)}</Alert>}
           </Box>
@@ -182,7 +182,7 @@ export function ShareStudioDialog({ open, onClose, content }: { open: boolean; o
               <FormControlLabel control={<Switch checked={config.showTitle} onChange={(event) => update('showTitle', event.target.checked)} />} label="Titel" />
               <FormControlLabel control={<Switch checked={config.showDate} onChange={(event) => update('showDate', event.target.checked)} />} label="Datum" />
               <FormControlLabel control={<Switch checked={config.showWeather} onChange={(event) => update('showWeather', event.target.checked)} disabled={content.kind !== 'activity' || !content.activity.weather} />} label="Wetter" />
-              <FormControlLabel control={<Switch checked={config.showBrand} onChange={(event) => update('showBrand', event.target.checked)} />} label="Avento-Branding" />
+              <FormControlLabel control={<Switch checked={config.showBrand} onChange={(event) => update('showBrand', event.target.checked)} />} label="Baseline Cycling-Branding" />
             </Box>
             <Typography variant="caption" color="text.secondary">Bis zu sechs Kennzahlen</Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', mt: .5 }}>{metrics.map((metric) => <FormControlLabel key={metric.key} control={<Checkbox size="small" checked={config.metrics.includes(metric.key)} onChange={() => toggleMetric(metric.key)} disabled={!config.metrics.includes(metric.key) && config.metrics.length >= 6} />} label={<Typography variant="body2">{metric.label}</Typography>} />)}</Box>

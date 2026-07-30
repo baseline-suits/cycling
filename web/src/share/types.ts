@@ -86,7 +86,7 @@ export const DEFAULT_CONFIG: OverlayConfig = {
   formatId: 'portrait',
   theme: 'dark',
   background: 'solid',
-  solidColor: '#0E6562',
+  solidColor: '#080A0D',
   photoId: null,
   photoPosition: 50,
   metrics: ['distance', 'movingTime', 'avgSpeed', 'elevation'],

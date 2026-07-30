@@ -96,7 +96,7 @@ test('alle Minimal-Routen funktionieren direkt, einschließlich GPS- und Fallbac
     [`/vergleich?${compare}`, 'Unterschiede auf einen Blick.'],
     ['/rekorde', 'Deine stärksten Momente.'],
     ['/meilensteine', 'Was du dir erfahren hast.'],
-    ['/coach', 'Avento Chat'],
+    ['/coach', 'Baseline Cycling Chat'],
     ['/profil', 'Profil & Einstellungen'],
     ['/administration/mcp', 'MCP-Zugänge'],
     ['/diese-route-gibt-es-nicht', 'Hier endet diese Strecke.'],
@@ -154,11 +154,11 @@ test('Filter, Bearbeiten, Löschen, Chat, MCP und Profilaktionen bleiben funktio
   await expect(page).toHaveURL(/\/aktivitaeten$/)
 
   await page.goto('/coach')
-  await page.getByLabel('Nachricht an Avento Chat').fill('Wie viele Aktivitäten habe ich?')
+  await page.getByLabel('Nachricht an Baseline Cycling Chat').fill('Wie viele Aktivitäten habe ich?')
   await page.getByLabel('Nachricht senden').click()
   await expect(page.getByText('Wie viele Aktivitäten habe ich?')).toBeVisible()
   await expect(page.getByText(/durchsuche deine Trainingsdaten/i)).toBeHidden({ timeout: 30_000 })
-  await expect(page.locator('[aria-label="Gespräch mit Avento"]')).toContainText('Avento')
+  await expect(page.locator('[aria-label="Gespräch mit Baseline Cycling"]')).toContainText('Baseline Cycling')
 
   await page.goto('/administration/mcp')
   await page.getByRole('button', { name: 'Client anlegen' }).click()
@@ -251,7 +251,7 @@ test('versionierte visuelle Referenzen für Classic und sämtliche Minimal-Seite
     { name: 'compare', path: `/vergleich?${compare}`, heading: 'Unterschiede auf einen Blick.' },
     { name: 'records', path: '/rekorde', heading: 'Deine stärksten Momente.' },
     { name: 'milestones', path: '/meilensteine', heading: 'Was du dir erfahren hast.' },
-    { name: 'chat', path: '/coach', heading: 'Avento Chat' },
+    { name: 'chat', path: '/coach', heading: 'Baseline Cycling Chat' },
     { name: 'profile', path: '/profil', heading: 'Profil & Einstellungen' },
     { name: 'mcp', path: '/administration/mcp', heading: 'MCP-Zugänge' },
     { name: 'not-found', path: '/nicht-gefunden', heading: 'Hier endet diese Strecke.' },

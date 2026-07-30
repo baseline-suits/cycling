@@ -67,7 +67,7 @@ fun LoginScreen(
             verticalArrangement = Arrangement.Center,
         ) {
             Column(Modifier.widthIn(max = 460.dp)) {
-                Text("Avento", style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
+                Text("Baseline Cycling", style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
                 Text("Deine Radfahrten. Klar analysiert.", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(8.dp))
                 Text(

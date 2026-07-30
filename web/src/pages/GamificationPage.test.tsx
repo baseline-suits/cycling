@@ -106,7 +106,7 @@ describe('GamificationPage', () => {
     expect(screen.getByText('Längste Tour')).toBeInTheDocument()
     expect(screen.getByText('Städte & Kommunen')).toBeInTheDocument()
     expect(screen.getByText('Weitblick 2026')).toBeInTheDocument()
-    expect(screen.getByText(/Avento erstellt keine sozialen Ranglisten/)).toBeInTheDocument()
+    expect(screen.getByText(/Baseline Cycling erstellt keine sozialen Ranglisten/)).toBeInTheDocument()
   })
 
   it('blendet KI-Vorschläge vollständig aus, wenn sie nicht verfügbar sind', async () => {

@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.app_name,
     version="0.1.0",
-    description="Zentrale API für die Avento-Radfahranalyse.",
+    description="Zentrale API für die Baseline Cycling-Radfahranalyse.",
     lifespan=lifespan,
 )
 app.add_middleware(

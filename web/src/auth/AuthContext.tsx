@@ -90,7 +90,7 @@ export function useAuth() {
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const { profile, loading } = useAuth()
   const location = useLocation()
-  if (loading) return <LoadingScreen label="Dein Avento wird vorbereitet …" />
+  if (loading) return <LoadingScreen label="Dein Baseline Cycling wird vorbereitet …" />
   if (!profile) return <Navigate to="/login" replace state={{ from: location }} />
   return children
 }

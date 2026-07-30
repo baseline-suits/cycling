@@ -76,7 +76,7 @@ TOOL_DEFINITIONS: tuple[dict[str, Any], ...] = (
     {
         "name": "list_activities",
         "title": "Aktivitäten auflisten",
-        "description": "Listet kompakte Aktivitäten des verbundenen Avento-Benutzers mit sicheren Filtern auf.",
+        "description": "Listet kompakte Aktivitäten des verbundenen Baseline Cycling-Benutzers mit sicheren Filtern auf.",
         "inputSchema": {
             "type": "object",
             "properties": {

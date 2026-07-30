@@ -776,7 +776,7 @@ private fun AiCard(summary: String?, provider: String?, loading: Boolean, onGene
                             Icon(Icons.Default.AutoAwesome, null, tint = MaterialTheme.colorScheme.onPrimary)
                         }
                         Column {
-                            Text("Avento Insight", style = MaterialTheme.typography.titleLarge)
+                            Text("Baseline Cycling Insight", style = MaterialTheme.typography.titleLarge)
                             Text(
                                 "Deine KI-Auswertung",
                                 style = MaterialTheme.typography.bodySmall,

@@ -158,7 +158,7 @@ export function GamificationPage() {
           <AnnualAwardsPanel awards={overview.data.annual_awards} />
 
           <Alert severity="info" icon={<ShieldRoundedIcon />} sx={{ borderRadius: 3 }}>
-            Diese Ansicht ist privat. Avento erstellt keine sozialen Ranglisten und teilt deine Ziele, Serien oder Auszeichnungen nicht mit anderen Konten.
+            Diese Ansicht ist privat. Baseline Cycling erstellt keine sozialen Ranglisten und teilt deine Ziele, Serien oder Auszeichnungen nicht mit anderen Konten.
           </Alert>
         </Stack>
       )}
@@ -377,7 +377,7 @@ function RecordChasesPanel({ records }: { records: GamificationRecordChase[] }) 
       <CardContent sx={{ p: 2.5 }}>
         <SectionHeading id="records-heading" icon={<StarsRoundedIcon />} title="Persönliche Rekordjagd" description="Dein eigener Referenzpunkt – kein Vergleich mit anderen." />
         {records.length ? <Stack spacing={1.5} sx={{ mt: 2.5 }}>{records.map((record) => <RecordChase key={record.id} record={record} />)}</Stack> : (
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 2.5 }}>Mit weiteren Aktivitäten erkennt Avento persönliche Rekorde und passende nächste Marken.</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2.5 }}>Mit weiteren Aktivitäten erkennt Baseline Cycling persönliche Rekorde und passende nächste Marken.</Typography>
         )}
       </CardContent>
     </Card>

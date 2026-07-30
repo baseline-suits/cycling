@@ -123,7 +123,7 @@ fun ShareStudio(
                         Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) { Text("Vertikaler Bildausschnitt", fontWeight = FontWeight.ExtraBold); Slider(config.photoPositionPercent, { config = config.copy(photoPositionPercent = it) }, valueRange = 0f..100f) }
                     }
                     if (config.background == OverlayBackground.SOLID) item {
-                        ChoiceRow("Farbe", listOf(0xFF0E6562.toInt(), 0xFF071C1B.toInt(), 0xFFF5F7F3.toInt(), 0xFFDDE9E1.toInt()), config.solidColor, { color -> when (color) { 0xFF0E6562.toInt() -> "Avento"; 0xFF071C1B.toInt() -> "Nacht"; 0xFFF5F7F3.toInt() -> "Papier"; else -> "Salbei" } }) { config = config.copy(solidColor = it) }
+                        ChoiceRow("Farbe", listOf(0xFF080A0D.toInt(), 0xFFB9E878.toInt(), 0xFF8F86FF.toInt(), 0xFFF2F5EF.toInt()), config.solidColor, { color -> when (color) { 0xFF080A0D.toInt() -> "Baseline"; 0xFFB9E878.toInt() -> "Lime"; 0xFF8F86FF.toInt() -> "Violett"; else -> "Off-White" } }) { config = config.copy(solidColor = it) }
                     }
                     item {
                         Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
@@ -132,7 +132,7 @@ fun ShareStudio(
                             ToggleRow("Titel", config.showTitle) { config = config.copy(showTitle = it) }
                             ToggleRow("Datum", config.showDate) { config = config.copy(showDate = it) }
                             ToggleRow("Wetter", config.showWeather, content is OverlayShareContent.ActivityContent && content.activity.weather != null) { config = config.copy(showWeather = it) }
-                            ToggleRow("Avento-Branding", config.showBrand) { config = config.copy(showBrand = it) }
+                            ToggleRow("Baseline Cycling-Branding", config.showBrand) { config = config.copy(showBrand = it) }
                         }
                     }
                     item {

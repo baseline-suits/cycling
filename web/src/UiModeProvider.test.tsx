@@ -88,7 +88,7 @@ describe('UiModeProvider und Minimal-UI-Umschaltung', () => {
     rerender(<Providers><ModeProbe /></Providers>)
     expect(screen.getByText('Modus minimal')).toBeInTheDocument()
     expect(document.documentElement).toHaveAttribute('data-ui-mode', 'minimal')
-    expect(screen.getByText('Fläche #090E0D')).toBeInTheDocument()
+    expect(screen.getByText('Fläche #080A0D')).toBeInTheDocument()
   })
 
   it('aktiviert die Beta erst nach Bestätigung und lässt Abbrechen folgenlos', async () => {

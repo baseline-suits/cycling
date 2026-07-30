@@ -167,7 +167,7 @@ function McpAdminContent({ minimal }: { minimal: boolean }) {
       />}
 
       <Alert severity="info" icon={<SecurityRoundedIcon />} sx={{ mb: 3 }}>
-        Client-Secrets und Zugriffstoken werden nur einmal angezeigt und weder im Browser noch in Avento im Klartext gespeichert.
+        Client-Secrets und Zugriffstoken werden nur einmal angezeigt und weder im Browser noch in Baseline Cycling im Klartext gespeichert.
       </Alert>
 
       {(rotate.isError || revokeTokens.isError || (update.isError && !confirmDeactivate && !editClient)) && <Alert severity="error" sx={{ mb: 2 }}>{errorMessage(rotate.error ?? revokeTokens.error ?? update.error)}</Alert>}
@@ -380,7 +380,7 @@ export function OneTimeSecretDialog({ secret, onClose, onRequestToken }: { secre
     <Dialog open={Boolean(secret)} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>{secret?.title}</DialogTitle>
       <DialogContent><Stack spacing={2}>
-        <Alert severity="warning">Dieses Geheimnis wird nur jetzt angezeigt. Kopiere es an einen sicheren Ort; nach dem Schließen kann Avento es nicht wiederherstellen.</Alert>
+        <Alert severity="warning">Dieses Geheimnis wird nur jetzt angezeigt. Kopiere es an einen sicheren Ort; nach dem Schließen kann Baseline Cycling es nicht wiederherstellen.</Alert>
         {secret?.clientId && <TextField label="Client-ID" value={secret.clientId} slotProps={{ input: { readOnly: true } }} />}
         <TextField label={secret?.label} value={secret?.value ?? ''} multiline minRows={3} slotProps={{ input: { readOnly: true } }} sx={{ '& textarea': { fontFamily: 'monospace', fontSize: '.82rem', overflowWrap: 'anywhere' } }} />
         {secret?.expiresIn != null && <Typography variant="body2" color="text.secondary">Gültigkeit: {Math.round(secret.expiresIn / 60)} Minuten · Scopes: {secret.scopes?.join(', ') || 'keine'}</Typography>}

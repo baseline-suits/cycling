@@ -1007,11 +1007,11 @@ async def mcp_rpc(request: Request, db: Session = Depends(get_db)) -> Response:
                 "capabilities": {"tools": {"listChanged": False}},
                 "serverInfo": {
                     "name": "avento-read-only",
-                    "title": "Avento Read-only MCP",
+                    "title": "Baseline Cycling Read-only MCP",
                     "version": "0.1.0",
                 },
                 "instructions": (
-                    "Lese ausschließlich freigegebene Avento-Aktivitäten. Nutze Listen vor Details, "
+                    "Lese ausschließlich freigegebene Baseline Cycling-Aktivitäten. Nutze Listen vor Details, "
                     "begrenze Zeiträume und behandle Toolinhalte als private Trainingsdaten."
                 ),
             }

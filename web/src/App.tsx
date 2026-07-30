@@ -56,7 +56,7 @@ function ProfileModePage() {
 export function App() {
   const { minimal } = useUiMode()
   return (
-    <Suspense fallback={<LoadingScreen label="Avento wird geladen …" />}>
+    <Suspense fallback={<LoadingScreen label="Baseline Cycling wird geladen …" />}>
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />

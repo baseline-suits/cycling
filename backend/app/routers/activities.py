@@ -95,7 +95,7 @@ def _activity_export_archive(activities: list[Activity], *, include_original: bo
                 writer.writerow([point.get(key) for key in ("time", "latitude", "longitude", "altitude_m", "distance_m", "speed_mps", "heart_rate_bpm", "cadence_rpm", "power_w")])
             output.writestr(f"{prefix}.csv", rows.getvalue())
             output.writestr(f"{prefix}.json", json.dumps({"activity": _activity_response(activity).model_dump(mode="json"), "points": points}, ensure_ascii=False, indent=2))
-            gpx = ET.Element("gpx", {"version": "1.1", "creator": "Avento", "xmlns": "http://www.topografix.com/GPX/1/1"})
+            gpx = ET.Element("gpx", {"version": "1.1", "creator": "Baseline Cycling", "xmlns": "http://www.topografix.com/GPX/1/1"})
             track = ET.SubElement(ET.SubElement(gpx, "trk"), "trkseg")
             for point in points:
                 if point.get("latitude") is None or point.get("longitude") is None:
@@ -108,7 +108,7 @@ def _activity_export_archive(activities: list[Activity], *, include_original: bo
                 original = Path(activity.original_file_path)
                 if original.is_file(): output.writestr(f"original/{prefix}{original.suffix.lower()}", original.read_bytes())
             manifest.append({"id": activity.id, "title": activity.title, "redacted": redact, "quality_flags": activity.data_quality_flags or []})
-        output.writestr("manifest.json", json.dumps({"schema_version": "1.0", "generated_by": "Avento", "activities": manifest}, ensure_ascii=False, indent=2))
+        output.writestr("manifest.json", json.dumps({"schema_version": "1.0", "generated_by": "Baseline Cycling", "activities": manifest}, ensure_ascii=False, indent=2))
     return archive.getvalue()
 
 
@@ -531,7 +531,7 @@ def export_activities(
     if len(activities) > 200:
         raise HTTPException(status_code=413, detail="Für einen Export sind höchstens 200 Aktivitäten gleichzeitig möglich.")
     content = _activity_export_archive(activities, include_original=payload.include_original, redact=payload.redact_private_data)
-    return Response(content=content, media_type="application/zip", headers={"Content-Disposition": "attachment; filename=avento-export.zip"})
+    return Response(content=content, media_type="application/zip", headers={"Content-Disposition": "attachment; filename=baseline-cycling-export.zip"})
 
 
 @router.get("/segments", response_model=list[SavedSegmentResponse])

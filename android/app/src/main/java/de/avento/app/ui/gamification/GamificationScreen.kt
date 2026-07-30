@@ -101,14 +101,14 @@ fun GamificationScreen(viewModel: GamificationViewModel) {
                     items(overview.goals, key = { it.id }) { goal -> GoalCard(goal, viewModel::beginEdit, viewModel::deleteGoal) }
                 }
 
-                item { SectionTitle("Herausforderungen", "Vorschläge können lokal oder durch Avento Insights personalisiert sein.") }
+                item { SectionTitle("Herausforderungen", "Vorschläge können lokal oder durch Baseline Cycling Insights personalisiert sein.") }
                 if (overview.challengeSuggestions.isNotEmpty()) {
                     items(overview.challengeSuggestions, key = { "suggestion-${it.id}" }) { challenge -> ChallengeSuggestionCard(challenge, viewModel) }
                 } else {
                     item {
                         EmptyPane(
                             "Keine neuen Vorschläge",
-                            if (overview.aiChallengesAvailable) "Avento Insights schlägt später passende Herausforderungen vor."
+                            if (overview.aiChallengesAvailable) "Baseline Cycling Insights schlägt später passende Herausforderungen vor."
                             else "Ohne OpenAI-Schlüssel sind lokale Vorschläge verfügbar; KI-Vorschläge bleiben deaktiviert.",
                         )
                     }

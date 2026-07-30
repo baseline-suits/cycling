@@ -33,7 +33,7 @@ import de.avento.app.ui.components.AventoTopBar
 fun ChatScreen(viewModel: ChatViewModel) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var draft by rememberSaveable { mutableStateOf("") }
-    Scaffold(topBar = { AventoTopBar("Avento Insights") }) { padding ->
+    Scaffold(topBar = { AventoTopBar("Baseline Cycling Insights") }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
             LazyColumn(
                 Modifier.weight(1f).fillMaxWidth(),
@@ -43,7 +43,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 if (state.messages.isEmpty()) {
                     item {
                         Text(
-                            "Frag Avento nach deinen Trainings, Zielen oder passenden privaten Herausforderungen.",
+                            "Frag Baseline Cycling nach deinen Trainings, Zielen oder passenden privaten Herausforderungen.",
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
@@ -51,7 +51,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
                 items(state.messages) { message ->
                     Card(Modifier.fillMaxWidth()) {
                         Column(Modifier.padding(14.dp)) {
-                            Text(if (message.role == "user") "Du" else "Avento Insights", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+                            Text(if (message.role == "user") "Du" else "Baseline Cycling Insights", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                             Text(message.content, Modifier.padding(top = 5.dp))
                         }
                     }

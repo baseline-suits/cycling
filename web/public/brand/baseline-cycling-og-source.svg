@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Baseline Cycling</title>
+  <desc id="description">Social Preview mit Radfahrer und Baseline-Cycling-Wortmarke</desc>
+  <defs>
+    <linearGradient id="shade" x1="0" x2="1">
+      <stop offset="0" stop-color="#080a0d" stop-opacity=".98"/>
+      <stop offset=".48" stop-color="#080a0d" stop-opacity=".84"/>
+      <stop offset=".72" stop-color="#080a0d" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#080a0d" stop-opacity=".06"/>
+    </linearGradient>
+  </defs>
+  <image href="baseline-cycling-og-background.png" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="1200" height="630" fill="url(#shade)"/>
+  <g transform="translate(50 58) scale(.25)">
+    <path
+      fill="#f2f5ef"
+      d="M102 124h176c65 0 118 53 118 118 0 29-10 55-27 76l-42-30c9-13 14-29 14-46 0-36-29-65-65-65H102v-53Z"
+    />
+    <path fill="#f2f5ef" d="M102 337h296c8 16 12 33 12 51H102v-51Z"/>
+    <g fill="none" stroke="#b9e878" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+      <circle cx="218" cy="288" r="24"/>
+      <circle cx="306" cy="288" r="24"/>
+      <path d="m218 288 30-48 30 48h-60Zm30-48 45 3 13 45m-58-48-8-18h18m20 66 16-45m-8-11h18"/>
+    </g>
+    <circle cx="271" cy="211" r="10" fill="#b9e878"/>
+  </g>
+  <text x="58" y="275" fill="#f2f5ef" font-family="Manrope, Inter, Arial, sans-serif" font-size="82" font-weight="570" letter-spacing="-4">Baseline</text>
+  <text x="63" y="333" fill="#b9e878" font-family="Manrope, Inter, Arial, sans-serif" font-size="28" font-weight="750" letter-spacing="14">CYCLING</text>
+  <text x="62" y="416" fill="#c4cbc0" font-family="Manrope, Inter, Arial, sans-serif" font-size="30" font-weight="450">Deine Fahrt. Dein Fortschritt.</text>
+  <rect x="60" y="506" width="120" height="6" rx="3" fill="#b9e878"/>
+</svg>

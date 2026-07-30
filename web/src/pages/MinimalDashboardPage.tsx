@@ -142,7 +142,7 @@ export function MinimalDashboardPage() {
           <Stack direction="row" gap={1} alignItems="center" color="primary.main"><AutoAwesomeRoundedIcon fontSize="small" /><Typography variant="overline">Trainingsimpuls</Typography></Stack>
           <Typography id="impulse-title" variant="h2" sx={{ mt: 2 }}>Bleib bei deinem Rhythmus.</Typography>
           <Typography color="text.secondary" sx={{ mt: 2, lineHeight: 1.8 }}>{insights.data?.fitness_trend.statement || 'Regelmäßige, gut verteilte Fahrten sind oft wertvoller als einzelne besonders intensive Tage.'}</Typography>
-          <Button component={RouterLink} to="/coach" endIcon={<ArrowForwardRoundedIcon />} sx={{ mt: 2, px: 0 }}>Mit Avento Chat vertiefen</Button>
+          <Button component={RouterLink} to="/coach" endIcon={<ArrowForwardRoundedIcon />} sx={{ mt: 2, px: 0 }}>Mit Baseline Cycling Chat vertiefen</Button>
         </Box>
 
         <Card sx={{ bgcolor: 'var(--avento-minimal-surface-raised)', overflow: 'hidden' }}>

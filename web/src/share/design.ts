@@ -1,6 +1,6 @@
 import type { OverlayTheme } from './types'
 
-export const AVENTO_SOLID_COLORS = ['#0E6562', '#071C1B', '#F5F7F3', '#DDE9E1'] as const
+export const BASELINE_CYCLING_SOLID_COLORS = ['#080A0D', '#B9E878', '#8F86FF', '#F2F5EF'] as const
 
 export interface OverlayPalette {
   canvas: string
@@ -17,14 +17,14 @@ export interface OverlayPalette {
 export function paletteFor(theme: OverlayTheme): OverlayPalette {
   return theme === 'dark'
     ? {
-        canvas: '#071C1B', surface: 'rgba(10, 40, 38, .88)', surfaceStrong: '#0D2A28',
-        text: '#F7FBF9', muted: '#B7CAC5', accent: '#B8D95B', achievement: '#F2B85B',
-        routeHalo: 'rgba(4, 20, 19, .82)', shadow: '0 18px 50px rgba(0, 0, 0, .28)',
+        canvas: '#080A0D', surface: 'rgba(23, 25, 35, .9)', surfaceStrong: '#171923',
+        text: '#F2F5EF', muted: '#C4CBC0', accent: '#B9E878', achievement: '#F0B65E',
+        routeHalo: 'rgba(8, 10, 13, .84)', shadow: '0 18px 50px rgba(0, 0, 0, .32)',
       }
     : {
-        canvas: '#F5F7F3', surface: 'rgba(255, 255, 255, .9)', surfaceStrong: '#FFFFFF',
-        text: '#172322', muted: '#61706E', accent: '#0E6562', achievement: '#D77A30',
-        routeHalo: 'rgba(255, 255, 255, .9)', shadow: '0 18px 50px rgba(20, 50, 45, .13)',
+        canvas: '#F2F5EF', surface: 'rgba(255, 255, 255, .92)', surfaceStrong: '#FFFFFF',
+        text: '#151A12', muted: '#62695E', accent: '#5E7F1C', achievement: '#B97616',
+        routeHalo: 'rgba(255, 255, 255, .9)', shadow: '0 18px 50px rgba(20, 26, 18, .13)',
       }
 }
 

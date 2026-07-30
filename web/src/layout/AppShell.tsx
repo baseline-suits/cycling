@@ -44,7 +44,7 @@ const nav = [
   { label: 'Rekorde', path: '/rekorde', icon: <EmojiEventsRoundedIcon /> },
   { label: 'Statistiken', path: '/statistiken', icon: <BarChartRoundedIcon /> },
   { label: 'Vergleich', path: '/vergleich', icon: <CompareArrowsRoundedIcon /> },
-  { label: 'Avento Chat', path: '/coach', icon: <SmartToyRoundedIcon /> },
+  { label: 'Baseline Cycling Chat', path: '/coach', icon: <SmartToyRoundedIcon /> },
 ]
 
 export interface ShellOutletContext {

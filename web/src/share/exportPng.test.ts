@@ -51,9 +51,9 @@ describe('PNG-Export', () => {
 
   it('hängt den Download-Link für Browserkompatibilität kurz in das Dokument ein', () => {
     const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined)
-    downloadPng(new Blob(['png']), 'avento.png')
+    downloadPng(new Blob(['png']), 'baseline-cycling.png')
     expect(click).toHaveBeenCalledOnce()
-    expect(document.querySelector('a[download="avento.png"]')).toBeNull()
+    expect(document.querySelector('a[download="baseline-cycling.png"]')).toBeNull()
     click.mockRestore()
   })
 })

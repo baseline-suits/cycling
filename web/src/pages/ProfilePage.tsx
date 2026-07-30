@@ -66,7 +66,7 @@ export function ProfilePage() {
         <TextField label="E-Mail-Adresse" value={profile?.email ?? ''} disabled fullWidth helperText="Die E-Mail-Adresse kann derzeit nicht geändert werden." />
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}><TextField label="Maximale Herzfrequenz" type="number" value={hrMax} onChange={(event) => setHrMax(event.target.value ? Number(event.target.value) : '')} fullWidth /><TextField label="Ruheherzfrequenz" type="number" value={hrRest} onChange={(event) => setHrRest(event.target.value ? Number(event.target.value) : '')} fullWidth /></Stack>
         <Typography variant="h3" sx={{ pt: 1 }}>Trainingsziele</Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: -1.5 }}>Avento Insight nutzt diese Ziele für persönlichere Vergleiche, Motivation und Trainingshinweise.</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: -1.5 }}>Baseline Cycling Insight nutzt diese Ziele für persönlichere Vergleiche, Motivation und Trainingshinweise.</Typography>
         <Autocomplete
           multiple
           freeSolo
@@ -86,7 +86,7 @@ export function ProfilePage() {
         <SecurityCard />
         <ChangePasswordCard />
         {profile?.is_admin && <><InviteCard /><AdminPasswordResetCard /></>}
-        <Card><CardContent><Typography variant="h3">Datenschutz</Typography><Typography color="text.secondary" sx={{ mt: 1, lineHeight: 1.7 }}>Deine Fahrten werden zentral in deiner privaten Avento-Installation gespeichert. Andere Konten können deine Aktivitäten nicht sehen.</Typography></CardContent></Card>
+        <Card><CardContent><Typography variant="h3">Datenschutz</Typography><Typography color="text.secondary" sx={{ mt: 1, lineHeight: 1.7 }}>Deine Fahrten werden zentral in deiner privaten Baseline Cycling-Installation gespeichert. Andere Konten können deine Aktivitäten nicht sehen.</Typography></CardContent></Card>
       </Stack>
     </Box>
     <AvatarCropDialog open={Boolean(avatarFile)} file={avatarFile} busy={uploadAvatar.isPending} onClose={() => setAvatarFile(null)} onConfirm={(file) => uploadAvatar.mutate(file)} />
@@ -120,7 +120,7 @@ export function MinimalProfilePage() {
 
     <Stack spacing={{ xs: 6, md: 8 }}>
       <Box component="section" aria-labelledby="minimal-profile-identity" sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '240px minmax(0, 1fr)' }, gap: { xs: 3, md: 6 } }}>
-        <Box><Typography variant="overline" color="text.secondary">Identität</Typography><Typography id="minimal-profile-identity" variant="h2" sx={{ mt: 1 }}>So erscheint dein Profil.</Typography><Typography color="text.secondary" sx={{ mt: 1 }}>Dein Profilbild und Anzeigename bleiben nur in deiner privaten Avento-Installation sichtbar.</Typography></Box>
+        <Box><Typography variant="overline" color="text.secondary">Identität</Typography><Typography id="minimal-profile-identity" variant="h2" sx={{ mt: 1 }}>So erscheint dein Profil.</Typography><Typography color="text.secondary" sx={{ mt: 1 }}>Dein Profilbild und Anzeigename bleiben nur in deiner privaten Baseline Cycling-Installation sichtbar.</Typography></Box>
         <Card sx={{ bgcolor: 'var(--avento-minimal-surface-subtle)' }}><CardContent sx={{ p: { xs: 2.5, sm: 4 } }}><Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2.5} alignItems={{ xs: 'flex-start', sm: 'center' }}>
             <Avatar src={profile?.avatar_data_url ?? undefined} alt={profile?.display_name ?? 'Profilbild'} sx={{ width: 96, height: 96, bgcolor: 'secondary.dark', fontSize: '2rem', fontWeight: 800 }}>{profile?.display_name?.charAt(0).toUpperCase()}</Avatar>
@@ -133,7 +133,7 @@ export function MinimalProfilePage() {
       </Box>
 
       <Box component="section" aria-labelledby="minimal-profile-training" sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '240px minmax(0, 1fr)' }, gap: { xs: 3, md: 6 } }}>
-        <Box><Typography variant="overline" color="text.secondary">Training</Typography><Typography id="minimal-profile-training" variant="h2" sx={{ mt: 1 }}>Deine Grundlagen.</Typography><Typography color="text.secondary" sx={{ mt: 1 }}>Diese Angaben helfen Avento, Belastung und persönliche Hinweise passender einzuordnen.</Typography></Box>
+        <Box><Typography variant="overline" color="text.secondary">Training</Typography><Typography id="minimal-profile-training" variant="h2" sx={{ mt: 1 }}>Deine Grundlagen.</Typography><Typography color="text.secondary" sx={{ mt: 1 }}>Diese Angaben helfen Baseline Cycling, Belastung und persönliche Hinweise passender einzuordnen.</Typography></Box>
         <Stack spacing={3}>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}><TextField label="Maximale Herzfrequenz" type="number" value={hrMax} onChange={(event) => setHrMax(event.target.value ? Number(event.target.value) : '')} fullWidth /><TextField label="Ruheherzfrequenz" type="number" value={hrRest} onChange={(event) => setHrRest(event.target.value ? Number(event.target.value) : '')} fullWidth /></Stack>
           <Autocomplete multiple freeSolo options={['Grundlagenausdauer', 'Geschwindigkeit', 'Langstrecke', 'Trainingshäufigkeit', 'Klettern', 'Regeneration']} value={trainingGoals} onChange={(_, values) => setTrainingGoals(values.map((value) => value.trim()).filter(Boolean))} renderInput={(params) => <TextField {...params} label="Trainingsziele" placeholder="Weiteres Ziel" helperText="Mit Enter kannst du ein eigenes Ziel hinzufügen." />} />
@@ -190,7 +190,7 @@ export function ExperimentsCard() {
             sx={{ justifyContent: 'space-between', width: '100%', ml: 0, mt: 1.5, '& .MuiFormControlLabel-label': { fontWeight: 720 } }}
           />
           <Typography id="minimal-ui-description" variant="body2" color="text.secondary" sx={{ mt: 1, lineHeight: 1.7 }}>
-            Eine ruhige, minimalistische und vollständig durchgängige Oberfläche für Avento. Die Beta kann sich gestalterisch weiterentwickeln; alle bestehenden Bereiche bleiben nutzbar.
+            Eine ruhige, minimalistische und vollständig durchgängige Oberfläche für Baseline Cycling. Die Beta kann sich gestalterisch weiterentwickeln; alle bestehenden Bereiche bleiben nutzbar.
           </Typography>
           {Boolean(error) && <Alert severity="error" sx={{ mt: 2 }}>{errorMessage(error)}</Alert>}
         </CardContent>
@@ -199,7 +199,7 @@ export function ExperimentsCard() {
         <DialogTitle id="minimal-ui-confirm-title">Minimal UI aktivieren?</DialogTitle>
         <DialogContent>
           <Typography color="text.secondary" sx={{ lineHeight: 1.75 }}>
-            Diese Oberfläche befindet sich in einer Beta-Phase und kann sich gestalterisch weiterentwickeln. Alle Avento-Bereiche sind enthalten. Du kannst jederzeit zur klassischen Oberfläche zurückkehren.
+            Diese Oberfläche befindet sich in einer Beta-Phase und kann sich gestalterisch weiterentwickeln. Alle Baseline Cycling-Bereiche sind enthalten. Du kannst jederzeit zur klassischen Oberfläche zurückkehren.
           </Typography>
           {Boolean(error) && <Alert severity="error" sx={{ mt: 2 }}>{errorMessage(error)}</Alert>}
         </DialogContent>

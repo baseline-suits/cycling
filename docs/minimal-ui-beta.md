@@ -2,7 +2,7 @@
 
 ## Zielbild und Umfang
 
-Die Minimal UI ist eine optionale, Dark-only Präsentationsschicht für die gesamte angemeldete Avento-Web-App. Sie verwendet dieselben URLs, APIs, React-Query-Caches, Berechnungen und Mutationen wie Classic, ordnet die Inhalte aber als ruhiges Trainingsjournal mit klarer Typografie, wenigen Flächen und sparsamem Avento-Türkis neu.
+Die Minimal UI ist eine optionale, Dark-only Präsentationsschicht für die gesamte angemeldete Baseline Cycling-Web-App. Sie verwendet dieselben URLs, APIs, React-Query-Caches, Berechnungen und Mutationen wie Classic, ordnet die Inhalte aber als ruhiges Trainingsjournal mit klarer Typografie, wenigen Flächen und sparsamem Baseline-Lime neu.
 
 Vollständig migriert sind:
 
@@ -10,7 +10,7 @@ Vollständig migriert sind:
 - Aktivitätenliste, Aktivitätsdetail und separate Aktivitätsanalyse
 - Entwicklung, Statistiken, Vergleich und Rekorde
 - Meilensteine, Ziele und Challenges
-- Avento Chat
+- Baseline Cycling Chat
 - Profil, Avatar, Trainingsgrundlagen, Minimal-Experiment, TOTP, Passkeys, Passwort und Administratorfunktionen im Profil
 - MCP-Client-, Secret-, Token- und Audit-Verwaltung
 - Import-, Bearbeitungs-, Export-, Bestätigungs- und Sicherheitsdialoge
@@ -45,7 +45,7 @@ Die zentralen Tokens werden in `createMinimalTheme()` erzeugt:
 | Hintergrund | `#090E0D` |
 | Oberflächen | `#0D1413`, `#111817`, `#17201F` |
 | Primär-/Sekundärtext | `#F3F7F6` / `#96A5A2` |
-| Avento-Akzent | `#65C8C1` |
+| Baseline-Cycling-Akzent | `#B9E878` |
 | Semantische Diagrammfarben | Türkis, ruhiges Blau, Lime, Amber und Coral |
 | Rundungen | 8, 12 und 16 px |
 | Abstände | 4, 8, 12, 16, 24, 32, 48 und 64 px |

@@ -135,7 +135,7 @@ fun Throwable.toGermanMessage(moshi: Moshi? = null): String = when (this) {
             else -> "Die Anfrage ist fehlgeschlagen (${code()})."
         }
     }
-    is IOException -> "Keine Verbindung zum Avento-Server."
+    is IOException -> "Keine Verbindung zum Baseline Cycling-Server."
     else -> message ?: "Ein unerwarteter Fehler ist aufgetreten."
 }
 

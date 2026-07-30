@@ -47,7 +47,7 @@ const navigationItems = [
   { label: 'Rekorde', path: '/rekorde', icon: <EmojiEventsRoundedIcon /> },
   { label: 'Statistiken', path: '/statistiken', icon: <BarChartRoundedIcon /> },
   { label: 'Vergleich', path: '/vergleich', icon: <CompareArrowsRoundedIcon /> },
-  { label: 'Avento Chat', path: '/coach', icon: <SmartToyRoundedIcon /> },
+  { label: 'Baseline Cycling Chat', path: '/coach', icon: <SmartToyRoundedIcon /> },
 ]
 
 function BetaBadge({ onClick }: { onClick: () => void }) {
@@ -57,7 +57,7 @@ function BetaBadge({ onClick }: { onClick: () => void }) {
       variant="text"
       onClick={onClick}
       aria-label="Informationen zur Minimal UI Beta"
-      sx={{ minHeight: 34, px: 1.25, color: 'text.secondary', bgcolor: 'rgba(216,230,227,.045)', border: '1px solid', borderColor: 'divider', '&:hover': { bgcolor: 'rgba(101,200,193,.08)', color: 'text.primary' } }}
+      sx={{ minHeight: 34, px: 1.25, color: 'text.secondary', bgcolor: 'rgba(239,244,234,.045)', border: '1px solid', borderColor: 'divider', '&:hover': { bgcolor: 'rgba(185,232,120,.08)', color: 'text.primary' } }}
     >
       Minimal UI · Beta
     </Button>
@@ -84,7 +84,7 @@ function Navigation({ onNavigate, onBetaInfo }: { onNavigate?: () => void; onBet
               to={item.path}
               selected={selected}
               onClick={onNavigate}
-              sx={{ minHeight: 42, px: 1.25, borderRadius: 2, color: selected ? 'text.primary' : 'text.secondary', '&.Mui-selected': { bgcolor: 'rgba(101,200,193,.105)', color: 'primary.light', '&:hover': { bgcolor: 'rgba(101,200,193,.14)' } } }}
+              sx={{ minHeight: 42, px: 1.25, borderRadius: 2, color: selected ? 'text.primary' : 'text.secondary', '&.Mui-selected': { bgcolor: 'rgba(185,232,120,.105)', color: 'primary.light', '&:hover': { bgcolor: 'rgba(185,232,120,.14)' } } }}
             >
               <ListItemIcon sx={{ minWidth: 34, color: 'inherit', '& svg': { fontSize: 20 } }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.label} primaryTypographyProps={{ fontSize: '.84rem', fontWeight: selected ? 720 : 580 }} />
@@ -96,7 +96,7 @@ function Navigation({ onNavigate, onBetaInfo }: { onNavigate?: () => void; onBet
       <Stack spacing={1.25} alignItems="flex-start" sx={{ px: .5 }}>
         <BetaBadge onClick={onBetaInfo} />
         <ListItemButton component={NavLink} to="/profil" onClick={onNavigate} sx={{ width: '100%', minHeight: 52, p: .75, borderRadius: 2 }}>
-          <Avatar src={profile?.avatar_data_url ?? undefined} alt={profile?.display_name ?? 'Profilbild'} sx={{ width: 36, height: 36, bgcolor: 'rgba(101,200,193,.14)', color: 'primary.light', fontWeight: 750 }}>
+          <Avatar src={profile?.avatar_data_url ?? undefined} alt={profile?.display_name ?? 'Profilbild'} sx={{ width: 36, height: 36, bgcolor: 'rgba(185,232,120,.14)', color: 'primary.light', fontWeight: 750 }}>
             {profile?.display_name?.charAt(0).toUpperCase() || <PersonRoundedIcon />}
           </Avatar>
           <ListItemText sx={{ ml: 1 }} primary={profile?.display_name} secondary="Profil & Einstellungen" primaryTypographyProps={{ fontWeight: 680, noWrap: true, fontSize: '.82rem' }} secondaryTypographyProps={{ noWrap: true, fontSize: '.68rem' }} />
@@ -134,9 +134,9 @@ export function MinimalAppShell() {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       {desktop ? (
-        <Drawer variant="permanent" sx={{ width: drawerWidth, '& .MuiDrawer-paper': { width: drawerWidth, bgcolor: '#0B1110', borderRight: '1px solid', borderColor: 'divider' } }}>{navigation}</Drawer>
+        <Drawer variant="permanent" sx={{ width: drawerWidth, '& .MuiDrawer-paper': { width: drawerWidth, bgcolor: '#0D1015', borderRight: '1px solid', borderColor: 'divider' } }}>{navigation}</Drawer>
       ) : (
-        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} sx={{ '& .MuiDrawer-paper': { width: 'min(86vw, 280px)', bgcolor: '#0B1110' } }}>{navigation}</Drawer>
+        <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} sx={{ '& .MuiDrawer-paper': { width: 'min(86vw, 280px)', bgcolor: '#0D1015' } }}>{navigation}</Drawer>
       )}
       <AppBar position="fixed" color="transparent" elevation={0} sx={{ width: { lg: `calc(100% - ${drawerWidth}px)` }, ml: { lg: `${drawerWidth}px` }, bgcolor: 'rgba(9,14,13,.82)', backdropFilter: 'blur(18px)', borderBottom: '1px solid', borderColor: 'divider' }}>
         <Toolbar sx={{ minHeight: { xs: 60, sm: 64 }, px: { xs: 1.5, sm: 3 }, gap: 1 }}>

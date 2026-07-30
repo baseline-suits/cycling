@@ -27,7 +27,7 @@ export interface OverlayTemplateDefinition {
 }
 
 function Brand({ palette }: { palette: OverlayPalette }) {
-  return <Typography fontSize={18} fontWeight={900} letterSpacing="-.07em" color={palette.text}>avento</Typography>
+  return <Typography fontSize={18} fontWeight={800} letterSpacing="-.04em" color={palette.text}>Baseline Cycling</Typography>
 }
 
 function Meta({ date, weather, palette }: Pick<TemplateProps, 'date' | 'weather' | 'palette'>) {

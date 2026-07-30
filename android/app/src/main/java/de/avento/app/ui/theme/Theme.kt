@@ -21,59 +21,60 @@ import androidx.core.view.WindowCompat
 
 /** Feste Markenfarben, die Web und Android miteinander verbinden. */
 object AventoPalette {
-    val Teal = Color(0xFF0E6562)
-    val DeepTeal = Color(0xFF083B3A)
-    val Lime = Color(0xFFA5C838)
-    val Amber = Color(0xFFE9A23B)
-    val Coral = Color(0xFFE26D5A)
-    val Blue = Color(0xFF4D82BC)
+    val Teal = Color(0xFF61D8DD)
+    val DeepTeal = Color(0xFF080A0D)
+    val Lime = Color(0xFFB9E878)
+    val Amber = Color(0xFFF0B65E)
+    val Coral = Color(0xFFFF8D91)
+    val Blue = Color(0xFF73A7FF)
+    val Violet = Color(0xFF8F86FF)
 }
 
 private val LightColors = lightColorScheme(
-    primary = AventoPalette.Teal,
+    primary = Color(0xFF5E7F1C),
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFD6EEEA),
-    onPrimaryContainer = AventoPalette.DeepTeal,
-    secondary = Color(0xFF637C16),
+    primaryContainer = Color(0xFFE4F5C8),
+    onPrimaryContainer = Color(0xFF263600),
+    secondary = Color(0xFF655CC5),
     onSecondary = Color.White,
-    secondaryContainer = Color(0xFFE3F3AD),
-    onSecondaryContainer = Color(0xFF263500),
-    tertiary = AventoPalette.Blue,
+    secondaryContainer = Color(0xFFE6E3FF),
+    onSecondaryContainer = Color(0xFF211B65),
+    tertiary = Color(0xFF18898F),
     onTertiary = Color.White,
-    tertiaryContainer = Color(0xFFD9E9FF),
-    onTertiaryContainer = Color(0xFF153B63),
-    background = Color(0xFFF5F7F3),
-    onBackground = Color(0xFF172322),
+    tertiaryContainer = Color(0xFFC6F2F3),
+    onTertiaryContainer = Color(0xFF002F32),
+    background = Color(0xFFF2F5EF),
+    onBackground = Color(0xFF151A12),
     surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF172322),
-    surfaceVariant = Color(0xFFE9EEEA),
-    onSurfaceVariant = Color(0xFF61706E),
-    outline = Color(0xFF81918E),
-    outlineVariant = Color(0xFFDCE4E1),
+    onSurface = Color(0xFF151A12),
+    surfaceVariant = Color(0xFFE9EDE5),
+    onSurfaceVariant = Color(0xFF62695E),
+    outline = Color(0xFF7C8476),
+    outlineVariant = Color(0xFFDCE2D7),
     error = Color(0xFFBA1A1A),
 )
 
 private val DarkColors = darkColorScheme(
-    primary = Color(0xFF8FD2CD),
-    onPrimary = Color(0xFF003735),
-    primaryContainer = Color(0xFF0B4E4C),
-    onPrimaryContainer = Color(0xFFC4F0EB),
-    secondary = Color(0xFFC5DE77),
-    onSecondary = Color(0xFF303F00),
-    secondaryContainer = Color(0xFF465A00),
-    onSecondaryContainer = Color(0xFFE3F3AD),
-    tertiary = Color(0xFFA8C8F1),
-    onTertiary = Color(0xFF0C345D),
-    tertiaryContainer = Color(0xFF274C73),
-    onTertiaryContainer = Color(0xFFD6E7FF),
-    background = Color(0xFF0D1615),
-    onBackground = Color(0xFFDFE8E5),
-    surface = Color(0xFF121D1B),
-    onSurface = Color(0xFFDFE8E5),
-    surfaceVariant = Color(0xFF263330),
-    onSurfaceVariant = Color(0xFFBBCAC6),
-    outline = Color(0xFF859591),
-    outlineVariant = Color(0xFF3B4946),
+    primary = AventoPalette.Lime,
+    onPrimary = Color(0xFF11170B),
+    primaryContainer = Color(0xFF3E5215),
+    onPrimaryContainer = Color(0xFFE4F5C8),
+    secondary = AventoPalette.Violet,
+    onSecondary = Color(0xFF080A0D),
+    secondaryContainer = Color(0xFF393279),
+    onSecondaryContainer = Color(0xFFE6E3FF),
+    tertiary = AventoPalette.Teal,
+    onTertiary = Color(0xFF002F32),
+    tertiaryContainer = Color(0xFF164E52),
+    onTertiaryContainer = Color(0xFFC6F2F3),
+    background = Color(0xFF080A0D),
+    onBackground = Color(0xFFF2F5EF),
+    surface = Color(0xFF11151B),
+    onSurface = Color(0xFFF2F5EF),
+    surfaceVariant = Color(0xFF20242C),
+    onSurfaceVariant = Color(0xFFC4CBC0),
+    outline = Color(0xFF8C9488),
+    outlineVariant = Color(0xFF3A4037),
     error = Color(0xFFFFB4AB),
 )
 

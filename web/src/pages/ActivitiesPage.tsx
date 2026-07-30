@@ -49,7 +49,7 @@ export function ActivitiesPage() {
       const url = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = 'avento-export.zip'
+      link.download = 'baseline-cycling-export.zip'
       link.click()
       URL.revokeObjectURL(url)
     },
@@ -72,7 +72,7 @@ export function ActivitiesPage() {
       <PageHeader
         eyebrow="DEIN ARCHIV"
         title="Aktivitäten"
-        description={query.data ? `${query.data.total.toLocaleString('de-DE')} Fahrten in deinem Avento.` : 'Suche, filtere und öffne deine importierten Radfahrten.'}
+        description={query.data ? `${query.data.total.toLocaleString('de-DE')} Fahrten in deinem Baseline Cycling.` : 'Suche, filtere und öffne deine importierten Radfahrten.'}
         action={<Stack direction="row" gap={1} flexWrap="wrap" justifyContent="flex-end"><Button variant="outlined" startIcon={<DownloadRoundedIcon />} disabled={!selected.length || exportMutation.isPending} onClick={() => exportMutation.mutate()}>{exportMutation.isPending ? 'Export läuft …' : `Export${selected.length ? ` (${selected.length})` : ''}`}</Button><Button variant="contained" startIcon={<AddRoundedIcon />} onClick={openImport}>Importieren</Button></Stack>}
       />
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'minmax(240px, 1fr) 180px 170px 170px auto' }, gap: 1.25, mb: 3 }}>
@@ -122,7 +122,7 @@ export function ActivitiesPage() {
       {query.data && query.data.items.length === 0 && (
         <EmptyState
           title={hasFilters ? 'Keine Treffer' : 'Noch keine Aktivitäten'}
-          description={hasFilters ? 'Passe deine Suche oder den Zeitraum an.' : 'Importiere deine erste TCX-Datei und Avento übernimmt den Rest.'}
+          description={hasFilters ? 'Passe deine Suche oder den Zeitraum an.' : 'Importiere deine erste TCX-Datei und Baseline Cycling übernimmt den Rest.'}
           action={hasFilters ? <Button onClick={reset}>Filter zurücksetzen</Button> : <Button variant="contained" onClick={openImport}>Erste Aktivität importieren</Button>}
         />
       )}

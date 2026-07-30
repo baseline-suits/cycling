@@ -29,7 +29,7 @@ from ..schemas import ChatRequest, ChatResponse, ChatSource
 from ..statistics import totals
 
 
-router = APIRouter(prefix="/chat", tags=["Avento Coach"])
+router = APIRouter(prefix="/chat", tags=["Baseline Cycling Coach"])
 
 
 TOOLS: list[dict[str, Any]] = [
@@ -540,7 +540,7 @@ def chat(
     tools_used: list[str] = []
     tool_trace: list[dict[str, Any]] = []
     instructions = (
-        "Du bist Avento Coach, ein persönlicher deutschsprachiger Radsport-Coach. Nutze die Werkzeuge gezielt, "
+        "Du bist Baseline Cycling Coach, ein persönlicher deutschsprachiger Radsport-Coach. Nutze die Werkzeuge gezielt, "
         "statt Trainingswerte zu erraten. Vergleiche bevorzugt 3 bis 10 ähnliche frühere Fahrten und berücksichtige "
         "Distanz, Dauer, Höhenprofil, Herzfrequenz und streckenbezogenen Wind. Erkenne Fortschritte, lobe konkrete "
         "Leistungen und berücksichtige dokumentierte Trinkmengen als Aufzeichnungswerte, ohne einen individuellen "

@@ -80,7 +80,7 @@ export function AvatarCropDialog({ open, file, busy, onClose, onConfirm }: Avata
     <Dialog open={open} onClose={busy ? undefined : onClose} maxWidth="xs" fullWidth>
       <DialogTitle>Profilbild zuschneiden</DialogTitle>
       <DialogContent>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Passe den quadratischen Ausschnitt an. Avento speichert daraus ein optimiertes 1:1-Profilbild.</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>Passe den quadratischen Ausschnitt an. Baseline Cycling speichert daraus ein optimiertes 1:1-Profilbild.</Typography>
         <Box sx={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', overflow: 'hidden', borderRadius: '50%', bgcolor: 'action.hover', border: '1px solid', borderColor: 'divider', boxShadow: 'inset 0 0 0 10px rgba(255,255,255,.35)' }}>
           <Box component="canvas" ref={previewRef} width={640} height={640} aria-label="Vorschau des Profilbilds" sx={{ width: '100%', height: '100%', display: 'block' }} />
           {!image && !error && <Box sx={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center' }}><Typography color="text.secondary">Bild wird vorbereitet …</Typography></Box>}

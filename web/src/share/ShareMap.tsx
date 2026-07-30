@@ -50,7 +50,7 @@ export function ShareMap({
       if (showRoute) {
         map.addSource('share-route', { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } } })
         map.addLayer({ id: 'share-route-halo', type: 'line', source: 'share-route', paint: { 'line-color': theme === 'dark' ? '#061E1D' : '#FFFFFF', 'line-width': 9, 'line-opacity': .86 }, layout: { 'line-cap': 'round', 'line-join': 'round' } })
-        map.addLayer({ id: 'share-route-line', type: 'line', source: 'share-route', paint: { 'line-color': theme === 'dark' ? '#B8D95B' : '#0E6562', 'line-width': 5 }, layout: { 'line-cap': 'round', 'line-join': 'round' } })
+        map.addLayer({ id: 'share-route-line', type: 'line', source: 'share-route', paint: { 'line-color': theme === 'dark' ? '#B9E878' : '#5E7F1C', 'line-width': 5 }, layout: { 'line-cap': 'round', 'line-join': 'round' } })
       }
       const bounds = coordinates.reduce((value, point) => value.extend(point), new maplibregl.LngLatBounds(coordinates[0], coordinates[0]))
       map.fitBounds(bounds, { padding: 70, maxZoom: 15, duration: 0 })

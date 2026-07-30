@@ -17,26 +17,26 @@ export function createAppTheme(mode: PaletteMode) {
     palette: {
       mode,
       primary: dark
-        ? { main: '#65C8C1', light: '#94DED9', dark: '#32958F', contrastText: '#061E1D' }
-        : { main: '#0E6562', light: '#5A9692', dark: '#083B3A', contrastText: '#FFFFFF' },
+        ? { main: '#B9E878', light: '#D4F8A4', dark: '#7F9F2E', contrastText: '#11170B' }
+        : { main: '#5E7F1C', light: '#86A93D', dark: '#3D5710', contrastText: '#FFFFFF' },
       secondary: dark
-        ? { main: '#B8D95B', light: '#D7EC96', dark: '#7E9E29', contrastText: '#142000' }
-        : { main: '#A5C838', light: '#D9EF83', dark: '#637C16' },
+        ? { main: '#8F86FF', light: '#B8B2FF', dark: '#655CC5', contrastText: '#080A0D' }
+        : { main: '#655CC5', light: '#8F86FF', dark: '#494197' },
       background: dark
-        ? { default: '#0D1413', paper: '#151E1D' }
-        : { default: '#F5F7F3', paper: '#FFFFFF' },
+        ? { default: '#080A0D', paper: '#11151B' }
+        : { default: '#F2F5EF', paper: '#FFFFFF' },
       text: dark
-        ? { primary: '#F0F5F3', secondary: '#A5B3B0' }
-        : { primary: '#172322', secondary: '#61706E' },
-      divider: alpha(dark ? '#D7E4E1' : '#173C39', dark ? 0.12 : 0.1),
+        ? { primary: '#F2F5EF', secondary: '#C4CBC0' }
+        : { primary: '#151A12', secondary: '#62695E' },
+      divider: alpha(dark ? '#EFF4EA' : '#26301F', dark ? 0.12 : 0.1),
       error: { main: dark ? '#FFB4AB' : '#BA1A1A' },
       success: { main: dark ? '#85D49A' : '#2E7D4A' },
       chart: {
-        teal: dark ? '#65C8C1' : '#0E6562',
-        lime: dark ? '#B8D95B' : '#A5C838',
-        amber: dark ? '#F2B85B' : '#E9A23B',
-        coral: dark ? '#F28C7B' : '#E26D5A',
-        blue: dark ? '#7EAFE0' : '#4D82BC',
+        teal: dark ? '#61D8DD' : '#18898F',
+        lime: dark ? '#B9E878' : '#6F941F',
+        amber: dark ? '#F0B65E' : '#B97616',
+        coral: dark ? '#FF8D91' : '#C44F58',
+        blue: dark ? '#73A7FF' : '#356FCE',
       },
     },
     shape: { borderRadius: 16 },
@@ -68,7 +68,7 @@ export function createAppTheme(mode: PaletteMode) {
         defaultProps: { elevation: 0 },
         styleOverrides: {
           root: {
-            border: `1px solid ${alpha(dark ? '#D7E4E1' : '#173C39', dark ? 0.1 : 0.08)}`,
+            border: `1px solid ${alpha(dark ? '#EFF4EA' : '#26301F', dark ? 0.1 : 0.08)}`,
             boxShadow: dark ? '0 16px 42px rgba(0, 0, 0, 0.2)' : '0 12px 36px rgba(20, 50, 45, 0.05)',
           },
         },
@@ -87,20 +87,20 @@ export function createMinimalTheme() {
   return createTheme(base, {
     palette: {
       mode: 'dark',
-      primary: { main: '#65C8C1', light: '#9DE2DD', dark: '#359B95', contrastText: '#061E1D' },
-      secondary: { main: '#B8D95B', light: '#D9EE98', dark: '#7F9F2E', contrastText: '#142000' },
-      background: { default: '#090E0D', paper: '#111817' },
-      text: { primary: '#F3F7F6', secondary: '#96A5A2' },
-      divider: alpha('#D8E6E3', .1),
+      primary: { main: '#B9E878', light: '#D4F8A4', dark: '#7F9F2E', contrastText: '#11170B' },
+      secondary: { main: '#8F86FF', light: '#B8B2FF', dark: '#655CC5', contrastText: '#080A0D' },
+      background: { default: '#080A0D', paper: '#11151B' },
+      text: { primary: '#F2F5EF', secondary: '#C4CBC0' },
+      divider: alpha('#EFF4EA', .1),
       error: { main: '#FFB4AB' },
       success: { main: '#87D39B' },
       warning: { main: '#EBC477' },
       chart: {
-        teal: '#65C8C1',
-        lime: '#B8D95B',
-        amber: '#EBC477',
-        coral: '#E89586',
-        blue: '#82AEDA',
+        teal: '#61D8DD',
+        lime: '#B9E878',
+        amber: '#F0B65E',
+        coral: '#FF8D91',
+        blue: '#73A7FF',
       },
     },
     shape: { borderRadius: 12 },
@@ -119,8 +119,8 @@ export function createMinimalTheme() {
       MuiCssBaseline: {
         styleOverrides: {
           ':root': {
-            '--avento-minimal-surface-subtle': '#0D1413',
-            '--avento-minimal-surface-raised': '#17201F',
+            '--avento-minimal-surface-subtle': '#0D1015',
+            '--avento-minimal-surface-raised': '#171923',
             '--avento-minimal-content-width': '1280px',
             '--avento-motion-fast': '120ms',
             '--avento-motion-normal': '180ms',
@@ -128,7 +128,7 @@ export function createMinimalTheme() {
           },
           body: {
             colorScheme: 'dark',
-            backgroundImage: 'radial-gradient(circle at 72% -20%, rgba(101,200,193,.08), transparent 38%)',
+            backgroundImage: 'radial-gradient(circle at 72% -20%, rgba(143,134,255,.12), transparent 38%)',
             transition: 'background-color var(--avento-motion-normal) ease, color var(--avento-motion-normal) ease',
           },
           '@media (prefers-reduced-motion: reduce)': {
@@ -147,31 +147,31 @@ export function createMinimalTheme() {
           root: {
             minHeight: 44,
             borderRadius: 10,
-            '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: 3 },
+            '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: 3 },
           },
         },
       },
       MuiIconButton: {
-        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: 3 } } },
+        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: 3 } } },
       },
       MuiLink: {
-        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: 3, borderRadius: 4 } } },
+        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: 3, borderRadius: 4 } } },
       },
       MuiTab: {
-        styleOverrides: { root: { minHeight: 44, '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: -2 } } },
+        styleOverrides: { root: { minHeight: 44, '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: -2 } } },
       },
       MuiToggleButton: {
-        styleOverrides: { root: { minHeight: 40, '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: -2 } } },
+        styleOverrides: { root: { minHeight: 40, '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: -2 } } },
       },
       MuiMenuItem: {
-        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: -2 } } },
+        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: -2 } } },
       },
       MuiCard: {
         defaultProps: { elevation: 0 },
         styleOverrides: {
           root: {
             backgroundImage: 'none',
-            border: '1px solid rgba(216,230,227,.08)',
+            border: '1px solid rgba(239,244,234,.08)',
             boxShadow: '0 18px 50px rgba(0,0,0,.16)',
           },
         },
@@ -180,16 +180,16 @@ export function createMinimalTheme() {
         styleOverrides: {
           paper: {
             backgroundImage: 'none',
-            border: '1px solid rgba(216,230,227,.1)',
+            border: '1px solid rgba(239,244,234,.1)',
             '@media (max-width: 420px)': { margin: 12, width: 'calc(100% - 24px)', maxHeight: 'calc(100% - 24px)' },
           },
         },
       },
       MuiListItemButton: {
-        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #65C8C1', outlineOffset: -2 } } },
+        styleOverrides: { root: { '&:focus-visible': { outline: '2px solid #D8FFAC', outlineOffset: -2 } } },
       },
       MuiChip: { styleOverrides: { root: { fontWeight: 650 } } },
-      MuiLinearProgress: { styleOverrides: { root: { backgroundColor: 'rgba(216,230,227,.08)' } } },
+      MuiLinearProgress: { styleOverrides: { root: { backgroundColor: 'rgba(239,244,234,.08)' } } },
       MuiTooltip: { defaultProps: { arrow: true } },
     },
   })

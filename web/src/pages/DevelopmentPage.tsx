@@ -164,7 +164,7 @@ export function DevelopmentPage() {
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 2, mb: 3 }}>
               {insights.data.patterns.map((pattern, index) => <PatternCard key={`${pattern.kind}-${index}`} pattern={pattern} />)}
             </Box>
-          ) : <Card sx={{ mb: 3 }}><EmptyState title="Noch keine belastbaren Muster" description="Mit mehr Aktivitäten kann Avento Wetter, Puls, Tempo und Erholungsabstände verlässlicher vergleichen." /></Card>}
+          ) : <Card sx={{ mb: 3 }}><EmptyState title="Noch keine belastbaren Muster" description="Mit mehr Aktivitäten kann Baseline Cycling Wetter, Puls, Tempo und Erholungsabstände verlässlicher vergleichen." /></Card>}
 
           <Alert severity="info" sx={{ mb: 3 }}>{insights.data.disclaimer}</Alert>
         </>

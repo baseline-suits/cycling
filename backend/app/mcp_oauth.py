@@ -349,12 +349,12 @@ document.getElementById('passkey').addEventListener('click', async () => {
 </script>"""
     return f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Avento-Zugriff freigeben</title>
+<title>Baseline Cycling-Zugriff freigeben</title>
 <style>body{{font:16px system-ui,sans-serif;background:#f5f2eb;color:#25231f;max-width:34rem;margin:4rem auto;padding:0 1rem}}main{{background:white;border-radius:1rem;padding:2rem;box-shadow:0 8px 32px #0001}}h1{{margin-top:0}}label{{display:block;margin:.9rem 0 .3rem;font-weight:600}}input{{box-sizing:border-box;width:100%;padding:.7rem;border:1px solid #bbb;border-radius:.45rem;font:inherit}}button{{margin-top:1.2rem;padding:.75rem 1rem;border:0;border-radius:.5rem;background:#176b53;color:white;font-weight:700;cursor:pointer}}button.deny{{margin-left:.5rem;background:#777}}.error{{color:#a32222}}small{{color:#666}}</style></head>
-<body><main><h1>Avento-Zugriff</h1><p><strong>{html.escape(client_name)}</strong> möchte auf deine Avento-Daten zugreifen.</p>
+<body><main><h1>Baseline Cycling-Zugriff</h1><p><strong>{html.escape(client_name)}</strong> möchte auf deine Baseline Cycling-Daten zugreifen.</p>
 <ul>{scope_list}</ul>{error_html}<form method="post" action="{html.escape(action, quote=True)}">{hidden}
 <label for="email">E-Mail-Adresse</label><input id="email" name="email" type="email" autocomplete="email" required>
 <label for="password">Passwort</label><input id="password" name="password" type="password" autocomplete="current-password" required>
 <label for="totp_code">Authenticator-Code <small>(falls aktiviert)</small></label><input id="totp_code" name="totp_code" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code">
 <button name="decision" value="allow" type="submit">Zugriff erlauben</button><button id="passkey" type="button">Mit Passkey freigeben</button><button class="deny" name="decision" value="deny" type="submit">Ablehnen</button>
-</form><p><small>Die Verbindung verwendet OAuth 2.1 mit PKCE. Avento speichert kein MCP-Client-Secret.</small></p>{passkey_script}</main></body></html>"""
+</form><p><small>Die Verbindung verwendet OAuth 2.1 mit PKCE. Baseline Cycling speichert kein MCP-Client-Secret.</small></p>{passkey_script}</main></body></html>"""

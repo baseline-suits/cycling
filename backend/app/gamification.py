@@ -1300,7 +1300,7 @@ LEVEL_NAMES = (
     "Radabenteurer:in",
     "Tourenmeister:in",
     "Langstreckenprofi",
-    "Avento-Legende",
+    "Baseline Cycling-Legende",
 )
 
 

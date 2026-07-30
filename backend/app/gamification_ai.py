@@ -102,7 +102,7 @@ def generate_challenge_suggestions(
     response = client.responses.create(
         model=settings.openai_model,
         instructions=(
-            "Du bist Avento Insights. Erzeuge höchstens sechs realistische, optionale und deutschsprachige "
+            "Du bist Baseline Cycling Insights. Erzeuge höchstens sechs realistische, optionale und deutschsprachige "
             "Radfahr-Challenges ausschließlich aus den bereitgestellten Trainingsdaten. Nutze nur die erlaubten "
             "Metriken. Steigere Ziele höchstens vorsichtig. Wetter-Challenges dürfen leichte, mäßige oder starke "
             "Niederschlagsbeobachtung thematisieren, dürfen aber niemals zu Gewitter, Sturm, Glätte, Eis oder "
