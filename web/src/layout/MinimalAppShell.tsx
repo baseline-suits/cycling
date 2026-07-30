@@ -8,7 +8,6 @@ import DirectionsBikeRoundedIcon from '@mui/icons-material/DirectionsBikeRounded
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded'
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
-import SmartToyRoundedIcon from '@mui/icons-material/SmartToyRounded'
 import StarsRoundedIcon from '@mui/icons-material/StarsRounded'
 import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded'
 import {
@@ -47,7 +46,6 @@ const navigationItems = [
   { label: 'Rekorde', path: '/rekorde', icon: <EmojiEventsRoundedIcon /> },
   { label: 'Statistiken', path: '/statistiken', icon: <BarChartRoundedIcon /> },
   { label: 'Vergleich', path: '/vergleich', icon: <CompareArrowsRoundedIcon /> },
-  { label: 'Baseline Cycling Chat', path: '/coach', icon: <SmartToyRoundedIcon /> },
 ]
 
 function BetaBadge({ onClick }: { onClick: () => void }) {

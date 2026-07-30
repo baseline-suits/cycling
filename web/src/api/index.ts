@@ -7,8 +7,6 @@ import type {
   ActivityUpdate,
   ActivityExportInput,
   BootstrapData,
-  ChatHistoryItem,
-  ChatResponse,
   ImportActivityData,
   ImportBatchResponse,
   ImportJob,
@@ -186,14 +184,6 @@ export const statisticsApi = {
     apiRequest<StatisticsOverview>(
       `/statistics/overview${queryString({ date_from: dateFrom, date_to: dateTo, granularity, type })}`,
     ),
-}
-
-export const chatApi = {
-  send: (message: string, history: ChatHistoryItem[], activityId?: string) =>
-    apiRequest<ChatResponse>('/chat', {
-      method: 'POST',
-      body: { message, history, activity_id: activityId || undefined },
-    }),
 }
 
 export { activityMediaApi, activityPhotosApi, insightsApi, mcpAdminApi } from './roadmap'

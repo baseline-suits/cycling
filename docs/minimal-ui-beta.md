@@ -10,7 +10,6 @@ Vollständig migriert sind:
 - Aktivitätenliste, Aktivitätsdetail und separate Aktivitätsanalyse
 - Entwicklung, Statistiken, Vergleich und Rekorde
 - Meilensteine, Ziele und Challenges
-- Baseline Cycling Chat
 - Profil, Avatar, Trainingsgrundlagen, Minimal-Experiment, TOTP, Passkeys, Passwort und Administratorfunktionen im Profil
 - MCP-Client-, Secret-, Token- und Audit-Verwaltung
 - Import-, Bearbeitungs-, Export-, Bestätigungs- und Sicherheitsdialoge
@@ -69,14 +68,14 @@ Fachspezifische, gemeinsam verwendete Bausteine bleiben bewusst getrennt:
 - `AdvancedActivityAnalysis` koppelt Karte, aktiven Messpunkt, Höhen-, Tempo-, Puls-, Leistungs- und Kadenzkurven sowie Streckenauswahl.
 - `ActivityRoutePreview` erzeugt eine leichte SVG-Vorschau für höchstens zwölf sichtbare Listeneinträge.
 - `AnalyticsUi` vereinheitlicht Überschriften, Vergleichskennzahlen, Diagrammrahmen, Tooltips und Richtungskennzeichnung für Entwicklung, Statistik, Vergleich und Rekorde.
-- Chat, Profil und MCP verwenden jeweils ihren fachlichen Controller statt einer universellen Kartenabstraktion.
+- Profil und MCP verwenden jeweils ihren fachlichen Controller statt einer universellen Kartenabstraktion.
 
 Gemeinsame Datenlogik liegt in View-Models:
 
 - `useActivitiesViewModel` verwaltet Suche, Zeitraum, Sportart, Pagination und URL-Parameter.
 - `useActivityDetailViewModel` bündelt Aktivität, Track, Rekorde, Meilensteine und bestehende Mutationen mit dem gemeinsamen Track-Key `['activity', id, 'track']`.
 - `useStatisticsViewModel`, `useDevelopmentViewModel` und `useComparisonViewModel` teilen Datenzugriff, Filter und Vergleiche ohne Classic-Berechnungen zu duplizieren.
-- `useChatController`, `ProfileControllerProvider` und `useMcpAdminController` bewahren bestehende Funktionalität und lokale Entwürfe beim UI-Moduswechsel.
+- `ProfileControllerProvider` und `useMcpAdminController` bewahren bestehende Funktionalität und lokale Entwürfe beim UI-Moduswechsel.
 
 ## Diagramm- und Kartenregeln
 
@@ -97,7 +96,6 @@ Gemeinsame Datenlogik liegt in View-Models:
 - Fokus ist global sichtbar. Aktivierungs-, Bearbeitungs- und Löschdialoge setzen den Erstfokus bewusst und MUI gibt ihn nach dem Schließen an den Auslöser zurück.
 - Dialoge besitzen Titel und Beschreibungen, reagieren auf Escape und sperren Fokus nur während ihrer modalen Laufzeit.
 - Formularfehler stehen im Feld- beziehungsweise Formularzusammenhang; API-Erfolg und -Fehler werden nicht nur farblich vermittelt.
-- Chat unterstützt Enter zum Senden, Umschalt+Enter für Zeilenumbrüche, sinnvolles Scroll-Follow und einen dauerhaft erreichbaren Composer mit Safe-Area-Abstand.
 - Status, Trends und Vergleiche verwenden Text, Symbole oder Muster zusätzlich zu Farbe.
 
 ## Testdaten und automatisierte Abnahme
@@ -122,7 +120,7 @@ cd web && npm run test:e2e
 cd web && npm run test:visual:update
 ```
 
-Die E2E-Suite prüft unter anderem Moduspersistenz, Reload, neuen Browserkontext, Classic-Farbpräferenz, direkte URLs, alle Produktseiten, GPS-/Ohne-GPS-Details, URL-Filter, Bearbeiten, Löschen, Chat, MCP-Erstellung, Profil-Speichern, Nicht-Admin-Zugriff, Dialogfokus, Drawer/Escape und horizontalen Overflow bei 320 px.
+Die E2E-Suite prüft unter anderem Moduspersistenz, Reload, neuen Browserkontext, Classic-Farbpräferenz, direkte URLs, alle Produktseiten, GPS-/Ohne-GPS-Details, URL-Filter, Bearbeiten, Löschen, MCP-Erstellung, Profil-Speichern, Nicht-Admin-Zugriff, Dialogfokus, Drawer/Escape und horizontalen Overflow bei 320 px.
 
 ## Viewports und Screenshots
 
@@ -133,7 +131,7 @@ Automatisiert und visuell geprüft werden:
 - Mobile: 390 × 844
 - Overflow-Grenzfall: 320 × 760 beziehungsweise 320 px Breite
 
-Versionierte Referenzen liegen unter `web/e2e/minimal-ui.spec.ts-snapshots/`. Der Satz enthält 46 PNGs: Classic-Dashboard in drei Viewports, 14 Minimal-Seiten in Desktop/Tablet/Mobile sowie den mobilen Beta-Dialog. Enthalten sind Dashboard, Liste, Detail mit GPS, Analyse, Detail ohne GPS, Entwicklung, Statistiken, Vergleich, Rekorde, Meilensteine, Chat, Profil, MCP und unbekannte Route.
+Versionierte Referenzen liegen unter `web/e2e/minimal-ui.spec.ts-snapshots/`. Enthalten sind Classic-Dashboard, Dashboard, Liste, Detail mit GPS, Analyse, Detail ohne GPS, Entwicklung, Statistiken, Vergleich, Rekorde, Meilensteine, Profil, MCP, unbekannte Route und der mobile Beta-Dialog.
 
 ## Bekannte Einschränkungen und Folgearbeit
 
@@ -141,7 +139,6 @@ Versionierte Referenzen liegen unter `web/e2e/minimal-ui.spec.ts-snapshots/`. De
 - Kartenkacheln benötigen den bestehenden externen OpenFreeMap-Stil. Bei dessen Ausfall bleiben Trackdaten und Fallback erhalten.
 - Die Rekord-API liefert keinen historischen vorherigen Bestwert; die UI erfindet deshalb keinen.
 - Listenvorschauen können pro Seite bis zu zwölf bereits gecachte Track-Abfragen auslösen.
-- Verfügbarkeit und Qualität von Chat-Antworten hängen weiterhin vom konfigurierten bestehenden Provider ab; der lokale Fallback bleibt erhalten.
 - Android und externe APIs außerhalb des vorhandenen Statistik-Sportartfilters wurden nicht verändert.
 
 ## Rückbau und möglicher Standardpfad

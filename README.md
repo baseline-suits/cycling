@@ -8,7 +8,7 @@ Die Web-App enthält außerdem eine optional aktivierbare, Dark-only **Minimal U
 
 <p align="center">
   <strong>Deine Fahrten. Deine Daten. Dein Fortschritt.</strong><br>
-  Private Radfahranalyse mit Strecken, Wetter, persönlichen Rekorden und optionalem KI-Coach.
+  Private Radfahranalyse mit Strecken, Wetter, persönlichen Rekorden und optionalen KI-Auswertungen.
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@ Die Web-App enthält außerdem eine optional aktivierbare, Dark-only **Minimal U
 Baseline Cycling ist eine private Full-Stack-Plattform für Radfahranalyse und
 Streckenvisualisierung. Importierte TCX-Dateien werden serverseitig gespeichert,
 analysiert, entlang der Strecke mit historischen Wetterdaten angereichert und
-optional durch einen persönlichen KI-Coach ausgewertet.
+optional durch KI-gestützte Zusammenfassungen ausgewertet.
 
 | Strecke & Leistung | Training & Fortschritt | Kontext & Erinnerungen | Privat & erweiterbar |
 | --- | --- | --- | --- |
@@ -47,7 +47,7 @@ optional durch einen persönlichen KI-Coach ausgewertet.
 - **Aktivitätskontext:** Trinkmengen und Fotos lassen sich dokumentieren; Fotos
   werden validiert, als WebP gespeichert und über Aufnahmezeit sowie
   Koordinaten einer Strecke zugeordnet.
-- **Nachvollziehbare KI:** Coach-Antworten und KI-Zusammenfassungen nennen
+- **Nachvollziehbare KI:** KI-Zusammenfassungen nennen
   Zeitraum, Aktivitäten, Kennzahlen, Methoden und bekannte Einschränkungen.
 - **Ein gemeinsames Backend:** Web-App, Android-App und MCP verwenden dieselben
   Daten und dieselbe API.

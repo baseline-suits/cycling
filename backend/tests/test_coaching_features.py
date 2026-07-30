@@ -1,10 +1,7 @@
 from __future__ import annotations
 
 import base64
-import importlib
-import json
 from io import BytesIO
-from types import SimpleNamespace
 
 from fastapi.testclient import TestClient
 from PIL import Image
@@ -70,7 +67,7 @@ def test_profile_training_goals_and_avatar(client: TestClient, auth: dict[str, s
         settings.max_avatar_pixels = previous_limit
 
 
-def test_professional_comparison_statistics_and_local_chat(client: TestClient, auth: dict[str, str]):
+def test_professional_comparison_and_statistics(client: TestClient, auth: dict[str, str]):
     first = _upload(client, auth, SAMPLE_TCX.replace(b"2026-06-01", b"2026-05-20"), "Frühere Runde")
     second = _upload(client, auth, SAMPLE_TCX, "Aktuelle Runde")
 
@@ -107,23 +104,13 @@ def test_professional_comparison_statistics_and_local_chat(client: TestClient, a
         assert section["moving_time_s"] == 120
         assert section["avg_speed_kmh"] == 18
 
-    chat = client.post(
-        "/api/v1/chat",
-        headers=auth,
-        json={"message": "Wie war diese Fahrt?", "history": [], "activity_id": second["id"]},
-    )
-    assert chat.status_code == 200, chat.text
-    assert chat.json()["provider"] == "local"
-    assert chat.json()["sources"][0]["activity_id"] == second["id"]
-    assert "find_similar_activities" in chat.json()["tools_used"]
-
     goals = client.patch("/api/v1/profile", headers=auth, json={"training_goals": ["Langstrecke"]})
     assert goals.status_code == 200
     assert client.get(f"/api/v1/activities/{second['id']}", headers=auth).json()["ai_summary"] is None
 
 
-def test_statistics_limits_and_openai_focus_tool_loop(client: TestClient, auth: dict[str, str], monkeypatch):
-    activity = _upload(client, auth, SAMPLE_TCX, "Fokusfahrt")
+def test_statistics_limits(client: TestClient, auth: dict[str, str]):
+    _upload(client, auth, SAMPLE_TCX, "Fokusfahrt")
     assert client.get(
         "/api/v1/statistics/overview?date_from=0001-01-01&date_to=2026-01-01",
         headers=auth,
@@ -132,48 +119,6 @@ def test_statistics_limits_and_openai_focus_tool_loop(client: TestClient, auth: 
         "/api/v1/statistics/overview?date_from=2020-01-01&date_to=2026-01-01&granularity=day",
         headers=auth,
     ).status_code == 422
-
-    calls: list[dict] = []
-
-    class FakeResponses:
-        def create(self, **kwargs):
-            calls.append(kwargs)
-            if len(calls) == 1:
-                return SimpleNamespace(
-                    output=[SimpleNamespace(
-                        type="function_call",
-                        name="get_activity_details",
-                        arguments=json.dumps({"activity_id": activity["id"]}),
-                        call_id="call-focus",
-                    )],
-                    output_text="",
-                )
-            return SimpleNamespace(output=[], output_text="Die Fokusfahrt wurde mit ihren Details analysiert.")
-
-    class FakeOpenAI:
-        def __init__(self, **kwargs):
-            self.responses = FakeResponses()
-
-    chat_module = importlib.import_module("app.routers.chat")
-    monkeypatch.setattr(chat_module, "OpenAI", FakeOpenAI)
-    settings = get_settings()
-    settings.openai_api_key = "test-key"
-    try:
-        response = client.post(
-            "/api/v1/chat",
-            headers=auth,
-            json={"message": "Warum war sie anstrengend?", "history": [], "activity_id": activity["id"]},
-        )
-    finally:
-        settings.openai_api_key = None
-    assert response.status_code == 200, response.text
-    assert response.json()["provider"] == "openai"
-    assert response.json()["sources"][0]["activity_id"] == activity["id"]
-    user_input = next(item for item in calls[0]["input"] if isinstance(item, dict) and item.get("role") == "user")
-    assert activity["id"] in user_input["content"]
-    assert calls[0]["store"] is False
-    assert calls[0]["include"] == ["reasoning.encrypted_content"]
-
 
 def test_route_wind_uses_course_direction():
     points = [

@@ -8,8 +8,6 @@ import de.avento.app.data.model.ActivityPhotoUpdate
 import de.avento.app.data.model.ActivityTrack
 import de.avento.app.data.model.ActivityUpdate
 import de.avento.app.data.model.BootstrapRequest
-import de.avento.app.data.model.ChatRequest
-import de.avento.app.data.model.ChatResponse
 import de.avento.app.data.model.CompareRequest
 import de.avento.app.data.model.CompareResponse
 import de.avento.app.data.model.GamificationChallenge
@@ -155,9 +153,6 @@ interface AventoApi {
         @Path("year") year: Int,
         @Query("season") season: String = "year",
     ): PeriodReview
-
-    @POST("chat")
-    suspend fun chat(@Body request: ChatRequest): ChatResponse
 
     @GET("gamification/overview")
     suspend fun gamificationOverview(): GamificationOverview

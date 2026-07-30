@@ -96,7 +96,6 @@ test('alle Minimal-Routen funktionieren direkt, einschließlich GPS- und Fallbac
     [`/vergleich?${compare}`, 'Unterschiede auf einen Blick.'],
     ['/rekorde', 'Deine stärksten Momente.'],
     ['/meilensteine', 'Was du dir erfahren hast.'],
-    ['/coach', 'Baseline Cycling Chat'],
     ['/profil', 'Profil & Einstellungen'],
     ['/administration/mcp', 'MCP-Zugänge'],
     ['/diese-route-gibt-es-nicht', 'Hier endet diese Strecke.'],
@@ -113,7 +112,7 @@ test('alle Minimal-Routen funktionieren direkt, einschließlich GPS- und Fallbac
 test('Classic bleibt auf sämtlichen Produktrouten erhalten', async ({ page }) => {
   const data = await fixtures()
   const rich = data.activities[0]
-  const routes = ['/', '/aktivitaeten', `/aktivitaeten/${rich.id}`, `/aktivitaeten/${rich.id}/analyse`, '/entwicklung', '/statistiken', '/vergleich', '/rekorde', '/meilensteine', '/coach', '/profil', '/administration/mcp']
+  const routes = ['/', '/aktivitaeten', `/aktivitaeten/${rich.id}`, `/aktivitaeten/${rich.id}/analyse`, '/entwicklung', '/statistiken', '/vergleich', '/rekorde', '/meilensteine', '/profil', '/administration/mcp']
   await setUiMode(page, 'classic')
   for (const path of routes) {
     await page.goto(path)
@@ -123,7 +122,7 @@ test('Classic bleibt auf sämtlichen Produktrouten erhalten', async ({ page }) =
   }
 })
 
-test('Filter, Bearbeiten, Löschen, Chat, MCP und Profilaktionen bleiben funktionsfähig', async ({ page, request }) => {
+test('Filter, Bearbeiten, Löschen, MCP und Profilaktionen bleiben funktionsfähig', async ({ page, request }) => {
   const data = await fixtures()
   const rich = data.activities[0]
   await setUiMode(page, 'minimal')
@@ -152,13 +151,6 @@ test('Filter, Bearbeiten, Löschen, Chat, MCP und Profilaktionen bleiben funktio
   await expect(remove.getByRole('button', { name: 'Abbrechen' })).toBeFocused()
   await remove.getByRole('button', { name: 'Endgültig löschen' }).click()
   await expect(page).toHaveURL(/\/aktivitaeten$/)
-
-  await page.goto('/coach')
-  await page.getByLabel('Nachricht an Baseline Cycling Chat').fill('Wie viele Aktivitäten habe ich?')
-  await page.getByLabel('Nachricht senden').click()
-  await expect(page.getByText('Wie viele Aktivitäten habe ich?')).toBeVisible()
-  await expect(page.getByText(/durchsuche deine Trainingsdaten/i)).toBeHidden({ timeout: 30_000 })
-  await expect(page.locator('[aria-label="Gespräch mit Baseline Cycling"]')).toContainText('Baseline Cycling')
 
   await page.goto('/administration/mcp')
   await page.getByRole('button', { name: 'Client anlegen' }).click()
@@ -199,7 +191,7 @@ test('Nicht-Admin und leere Datensätze zeigen verständliche Zustände', async 
 test('mobile Navigation, Dialoge und alle Seiten bleiben bei 320 px ohne horizontalen Overflow', async ({ page }) => {
   const data = await fixtures()
   const rich = data.activities[0]
-  const routes = ['/', '/aktivitaeten', `/aktivitaeten/${rich.id}`, `/aktivitaeten/${rich.id}/analyse`, '/entwicklung', '/statistiken', '/vergleich', '/rekorde', '/meilensteine', '/coach', '/profil', '/administration/mcp', '/unbekannt']
+  const routes = ['/', '/aktivitaeten', `/aktivitaeten/${rich.id}`, `/aktivitaeten/${rich.id}/analyse`, '/entwicklung', '/statistiken', '/vergleich', '/rekorde', '/meilensteine', '/profil', '/administration/mcp', '/unbekannt']
   await setUiMode(page, 'minimal')
   await page.setViewportSize({ width: 320, height: 760 })
   await page.goto('/')
@@ -251,7 +243,6 @@ test('versionierte visuelle Referenzen für Classic und sämtliche Minimal-Seite
     { name: 'compare', path: `/vergleich?${compare}`, heading: 'Unterschiede auf einen Blick.' },
     { name: 'records', path: '/rekorde', heading: 'Deine stärksten Momente.' },
     { name: 'milestones', path: '/meilensteine', heading: 'Was du dir erfahren hast.' },
-    { name: 'chat', path: '/coach', heading: 'Baseline Cycling Chat' },
     { name: 'profile', path: '/profil', heading: 'Profil & Einstellungen' },
     { name: 'mcp', path: '/administration/mcp', heading: 'MCP-Zugänge' },
     { name: 'not-found', path: '/nicht-gefunden', heading: 'Hier endet diese Strecke.' },

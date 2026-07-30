@@ -184,7 +184,7 @@ export function DashboardPage() {
         </Card>
 
         <Stack spacing={2.5}>
-          <CoachCard statement={insights.data?.fitness_trend.statement} loading={insights.isLoading} />
+          <InsightCard statement={insights.data?.fitness_trend.statement} loading={insights.isLoading} />
           <WeekProgress distanceKm={weeklyDistanceKm} targetKm={weeklyTargetKm} progress={weeklyProgress} trainingLoad={week.data?.training_load ?? 0} loading={week.isLoading || goals.isLoading} goalTitle={weeklyDistanceGoal?.title} />
         </Stack>
       </Box>
@@ -233,8 +233,8 @@ function Hero({ name, year, loading, values, onImport }: { name: string; year: n
   )
 }
 
-function CoachCard({ statement, loading }: { statement?: string; loading: boolean }) {
-  return <Card sx={{ flex: 1, background: (theme) => `linear-gradient(145deg, ${alpha(theme.palette.primary.main, .16)}, ${theme.palette.background.paper} 72%)` }}><CardContent sx={{ p: 2.5 }}><Stack direction="row" justifyContent="space-between"><Box><Typography variant="overline" color="primary.main" fontWeight={800}>BASELINE CYCLING COACH</Typography><Typography variant="h3">Dein Trainingsimpuls</Typography></Box><Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}><AutoAwesomeRoundedIcon /></Avatar></Stack>{loading ? <Skeleton variant="rounded" height={72} sx={{ mt: 2 }} /> : <Typography sx={{ mt: 2, lineHeight: 1.7 }}>{statement || 'Sammle noch ein paar Aktivitäten, damit Baseline Cycling einen belastbaren persönlichen Trend für dich erkennt.'}</Typography>}<Button component={RouterLink} to="/coach" endIcon={<ArrowForwardRoundedIcon />} sx={{ mt: 1.5, px: 0 }}>Coach öffnen</Button></CardContent></Card>
+function InsightCard({ statement, loading }: { statement?: string; loading: boolean }) {
+  return <Card sx={{ flex: 1, background: (theme) => `linear-gradient(145deg, ${alpha(theme.palette.primary.main, .16)}, ${theme.palette.background.paper} 72%)` }}><CardContent sx={{ p: 2.5 }}><Stack direction="row" justifyContent="space-between"><Box><Typography variant="overline" color="primary.main" fontWeight={800}>TRAININGSANALYSE</Typography><Typography variant="h3">Dein Trainingsimpuls</Typography></Box><Avatar sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}><AutoAwesomeRoundedIcon /></Avatar></Stack>{loading ? <Skeleton variant="rounded" height={72} sx={{ mt: 2 }} /> : <Typography sx={{ mt: 2, lineHeight: 1.7 }}>{statement || 'Sammle noch ein paar Aktivitäten, damit Baseline Cycling einen belastbaren persönlichen Trend für dich erkennt.'}</Typography>}</CardContent></Card>
 }
 
 function WeekProgress({ distanceKm, targetKm, progress, trainingLoad, loading, goalTitle }: { distanceKm: number; targetKm: number | null; progress: number; trainingLoad: number; loading: boolean; goalTitle?: string }) {

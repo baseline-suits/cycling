@@ -16,7 +16,7 @@ import {
   Typography,
 } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-import type { AIDataBasis, ChatSource } from '../api'
+import type { AIActivitySource, AIDataBasis } from '../api'
 import { formatDate, formatDateTime } from '../utils/format'
 
 function displayValue(value: unknown): string {
@@ -46,7 +46,7 @@ function periodLabel(dataBasis: AIDataBasis) {
 
 export interface AIDataBasisPanelProps {
   dataBasis?: AIDataBasis | null
-  sources?: ChatSource[]
+  sources?: AIActivitySource[]
   tools?: string[]
   toolLabels?: Record<string, string>
   provider?: string | null

@@ -9,9 +9,6 @@ import de.avento.app.data.model.ActivityPhotoUpdate
 import de.avento.app.data.model.ActivityTrack
 import de.avento.app.data.model.ActivityUpdate
 import de.avento.app.data.model.BootstrapRequest
-import de.avento.app.data.model.ChatHistoryItem
-import de.avento.app.data.model.ChatRequest
-import de.avento.app.data.model.ChatResponse
 import de.avento.app.data.model.CompareRequest
 import de.avento.app.data.model.CompareResponse
 import de.avento.app.data.model.GamificationChallenge
@@ -108,7 +105,6 @@ interface AventoRepository {
     suspend fun personalRecords(): PersonalRecords = error("Rekorde werden von diesem Repository nicht unterstützt.")
     suspend fun longTermInsights(dateFrom: String?, dateTo: String?): LongTermInsights = error("Insights werden von diesem Repository nicht unterstützt.")
     suspend fun periodReview(year: Int, season: String): PeriodReview = error("Rückblicke werden von diesem Repository nicht unterstützt.")
-    suspend fun chat(message: String, history: List<ChatHistoryItem>, activityId: String?): ChatResponse = error("Chat wird von diesem Repository nicht unterstützt.")
     suspend fun gamificationOverview(): GamificationOverview = error("Gamification wird von diesem Repository nicht unterstützt.")
     suspend fun createGamificationGoal(request: GamificationGoalRequest): GamificationGoal = error("Ziele werden von diesem Repository nicht unterstützt.")
     suspend fun updateGamificationGoal(id: String, request: GamificationGoalRequest): GamificationGoal = error("Ziele werden von diesem Repository nicht unterstützt.")
@@ -343,14 +339,6 @@ class DefaultAventoRepository(
 
     override suspend fun periodReview(year: Int, season: String): PeriodReview =
         api.periodReview(year, season)
-
-    override suspend fun chat(
-        message: String,
-        history: List<ChatHistoryItem>,
-        activityId: String?,
-    ): ChatResponse = api.chat(
-        ChatRequest(message.trim(), history.takeLast(20), activityId.clean()),
-    )
 
     override suspend fun gamificationOverview(): GamificationOverview = api.gamificationOverview()
 

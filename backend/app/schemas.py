@@ -548,37 +548,6 @@ class PeriodReviewResponse(BaseModel):
     data_basis: AIDataBasis
 
 
-class ChatHistoryMessage(BaseModel):
-    role: str = Field(pattern=r"^(user|assistant)$")
-    content: str = Field(min_length=1, max_length=4000)
-
-
-class ChatRequest(BaseModel):
-    message: str = Field(min_length=1, max_length=4000)
-    history: list[ChatHistoryMessage] = Field(default_factory=list, max_length=20)
-    activity_id: str | None = Field(default=None, max_length=36)
-
-    @model_validator(mode="after")
-    def limit_history_size(self) -> "ChatRequest":
-        if sum(len(message.content) for message in self.history) > 32_000:
-            raise ValueError("Der Chatverlauf ist für eine einzelne Anfrage zu lang.")
-        return self
-
-
-class ChatSource(BaseModel):
-    activity_id: str
-    title: str
-    started_at: datetime
-
-
-class ChatResponse(BaseModel):
-    answer: str
-    provider: str
-    sources: list[ChatSource] = Field(default_factory=list)
-    tools_used: list[str] = Field(default_factory=list)
-    data_basis: AIDataBasis | None = None
-
-
 class GamificationMetric(str, Enum):
     distance_m = "distance_m"
     activity_count = "activity_count"

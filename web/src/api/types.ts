@@ -343,14 +343,7 @@ export interface ActivityComparison {
   ai_data_basis: AIDataBasis | null
 }
 
-export type ChatRole = 'user' | 'assistant'
-
-export interface ChatHistoryItem {
-  role: ChatRole
-  content: string
-}
-
-export interface ChatSource {
+export interface AIActivitySource {
   activity_id: string
   title: string
   started_at: string
@@ -387,14 +380,6 @@ export interface AIDataBasis {
   methods: AIDataMethod[]
   limitations: string[]
   facts: Record<string, unknown>
-}
-
-export interface ChatResponse {
-  answer: string
-  provider: string
-  sources: ChatSource[]
-  tools_used: string[]
-  data_basis: AIDataBasis | null
 }
 
 export interface ActivityPhoto {

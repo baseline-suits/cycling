@@ -209,10 +209,6 @@ fun DashboardScreen(
                                 onClick = { showAccountMenu = false; onNavigate("insights") },
                             )
                             DropdownMenuItem(
-                                text = { Text("Baseline Cycling Insights") },
-                                onClick = { showAccountMenu = false; onNavigate("chat") },
-                            )
-                            DropdownMenuItem(
                                 text = { Text("Profil") },
                                 onClick = { showAccountMenu = false; onNavigate("profile") },
                             )

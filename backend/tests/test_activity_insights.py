@@ -165,7 +165,7 @@ def _second_user(client: TestClient, auth: dict[str, str]) -> dict[str, str]:
     return {"Authorization": f"Bearer {registration.json()['access_token']}"}
 
 
-def test_hydration_is_editable_and_transparent_in_summary_and_chat(
+def test_hydration_is_editable_and_transparent_in_summary(
     client: TestClient,
     auth: dict[str, str],
 ):
@@ -200,20 +200,6 @@ def test_hydration_is_editable_and_transparent_in_summary_and_chat(
     assert next(method for method in basis["methods"] if method["name"] == "similarity_selection")[
         "parameters"
     ]["maximum_candidates"] == 30
-
-    chat = client.post(
-        "/api/v1/chat",
-        headers=auth,
-        json={"message": "Wie war diese Fahrt?", "activity_id": activity_id, "history": []},
-    )
-    assert chat.status_code == 200, chat.text
-    chat_payload = chat.json()
-    assert {"answer", "provider", "sources", "tools_used"}.issubset(chat_payload)
-    assert chat_payload["data_basis"]["activity_ids"] == [activity_id]
-    assert any(
-        metric["name"] == "hydration" and metric["value"] == 1000
-        for metric in chat_payload["data_basis"]["metrics"]
-    )
 
     earlier = client.post(
         "/api/v1/activities",

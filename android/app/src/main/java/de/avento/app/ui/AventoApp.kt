@@ -29,8 +29,6 @@ import de.avento.app.ui.auth.RegistrationScreen
 import de.avento.app.ui.auth.ServerSetupScreen
 import de.avento.app.ui.activities.ActivitiesScreen
 import de.avento.app.ui.activities.ActivitiesViewModel
-import de.avento.app.ui.chat.ChatScreen
-import de.avento.app.ui.chat.ChatViewModel
 import de.avento.app.ui.compare.CompareScreen
 import de.avento.app.ui.compare.CompareViewModel
 import de.avento.app.ui.dashboard.DashboardScreen
@@ -61,7 +59,6 @@ private object Routes {
     const val Compare = "compare"
     const val Gamification = "gamification"
     const val Insights = "insights"
-    const val Chat = "chat"
     const val Profile = "profile"
     const val Detail = "activity/{activityId}"
     fun detail(id: String) = "activity/$id"
@@ -198,10 +195,6 @@ private fun ConnectedAventoApp(container: AppContainer, connection: ServerState.
         composable(Routes.Insights) {
             val vm: InsightsViewModel = viewModel(factory = SimpleViewModelFactory { InsightsViewModel(repository, errorMapper) })
             InsightsScreen(vm)
-        }
-        composable(Routes.Chat) {
-            val vm: ChatViewModel = viewModel(factory = SimpleViewModelFactory { ChatViewModel(repository, errorMapper) })
-            ChatScreen(vm)
         }
         composable(Routes.Profile) {
             val vm: ProfileViewModel = viewModel(factory = SimpleViewModelFactory { ProfileViewModel(repository, errorMapper) })

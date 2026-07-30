@@ -16,8 +16,6 @@ const MinimalActivityAnalysisPage = lazy(() => import('./pages/minimal/activitie
 const ActivityDetailPage = lazy(() => import('./pages/ActivityDetailPage').then((module) => ({ default: module.ActivityDetailPage })))
 const MinimalActivityDetailPage = lazy(() => import('./pages/minimal/activities/MinimalActivityDetailPage').then((module) => ({ default: module.MinimalActivityDetailPage })))
 const BootstrapPage = lazy(() => import('./pages/BootstrapPage').then((module) => ({ default: module.BootstrapPage })))
-const ChatPage = lazy(() => import('./pages/ChatPage').then((module) => ({ default: module.ChatPage })))
-const MinimalChatPage = lazy(() => import('./pages/ChatPage').then((module) => ({ default: module.MinimalChatPage })))
 const ComparePage = lazy(() => import('./pages/ComparePage').then((module) => ({ default: module.ComparePage })))
 const MinimalComparePage = lazy(() => import('./pages/minimal/analytics').then((module) => ({ default: module.MinimalComparePage })))
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then((module) => ({ default: module.DashboardPage })))
@@ -74,7 +72,6 @@ export function App() {
           <Route path="/meilensteine" element={minimal ? <MinimalGamificationPage /> : <GamificationPage />} />
           <Route path="/rekorde" element={minimal ? <MinimalRecordsPage /> : <RecordsPage />} />
           <Route path="/vergleich" element={minimal ? <MinimalComparePage /> : <ComparePage />} />
-          <Route path="/coach" element={minimal ? <MinimalChatPage /> : <ChatPage />} />
           <Route path="/profil" element={<ProfileRoute />} />
           <Route path="/administration/mcp" element={minimal ? <MinimalMcpAdminPage /> : <McpAdminPage />} />
           <Route path="*" element={minimal ? <MinimalNotFoundPage /> : <Navigate to="/" replace />} />

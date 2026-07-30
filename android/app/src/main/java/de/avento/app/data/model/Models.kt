@@ -319,32 +319,6 @@ data class CompareResponse(
 )
 
 @JsonClass(generateAdapter = false)
-data class ChatHistoryItem(val role: String, val content: String)
-
-@JsonClass(generateAdapter = false)
-data class ChatRequest(
-    val message: String,
-    val history: List<ChatHistoryItem> = emptyList(),
-    @param:Json(name = "activity_id") val activityId: String? = null,
-)
-
-@JsonClass(generateAdapter = false)
-data class ChatSource(
-    @param:Json(name = "activity_id") val activityId: String,
-    val title: String,
-    @param:Json(name = "started_at") val startedAt: String,
-)
-
-@JsonClass(generateAdapter = false)
-data class ChatResponse(
-    val answer: String,
-    val provider: String,
-    val sources: List<ChatSource> = emptyList(),
-    @param:Json(name = "tools_used") val toolsUsed: List<String> = emptyList(),
-    @param:Json(name = "data_basis") val dataBasis: AIDataBasis? = null,
-)
-
-@JsonClass(generateAdapter = false)
 data class ActivityPhoto(
     val id: String,
     @param:Json(name = "activity_id") val activityId: String,
